@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # ─── Auth Service ───
+  auth-db:
+    image: postgres:16-alpine
+    container_name: sapphire-auth-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sapphire_auth
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d sapphire_auth"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  auth-api:
+    build:
+      context: .
+      dockerfile: src/services/Auth/Sapphire.Auth.Api/Dockerfile
+    container_name: sapphire-auth-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Auth: "Host=auth-db;Database=sapphire_auth;Username=admin;Password=password"
+      Jwt__SecretKey: "super-secret-key-must-be-at-least-32-chars!"
+      Jwt__Issuer: "https://sapphire.auth"
+      Jwt__Audience: "https://sapphire.client"
+      Jwt__AccessTokenExpirationMinutes: "15"
+      Jwt__RefreshTokenExpirationDays: "7"
+    ports:
+      - "5001:8080"
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  # ─── Billing Service ───
+  billing-db:
+    image: postgres:16-alpine
+    container_name: sapphire-billing-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sapphire_billing
+    ports:
+      - "5434:5432"
+    volumes:
+      - billing_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d sapphire_billing"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  billing-api:
+    build:
+      context: .
+      dockerfile: src/services/Billing/Sapphire.Billing.Api/Dockerfile
+    container_name: sapphire-billing-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Billing: "Host=billing-db;Database=sapphire_billing;Username=admin;Password=password"
+    ports:
+      - "5002:8080"
+    depends_on:
+      billing-db:
+        condition: service_healthy
+
+  # ─── Session Service ───
+  session-db:
+    image: postgres:16-alpine
+    container_name: sapphire-session-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sapphire_session
+    ports:
+      - "5435:5432"
+    volumes:
+      - session_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d sapphire_session"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  session-api:
+    build:
+      context: .
+      dockerfile: src/services/Session/Sapphire.Session.Api/Dockerfile
+    container_name: sapphire-session-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Session: "Host=session-db;Database=sapphire_session;Username=admin;Password=password"
+    ports:
+      - "5003:8080"
+    depends_on:
+      session-db:
+        condition: service_healthy
+
+  # ─── API Gateway ───
+  api-gateway:
+    build:
+      context: .
+      dockerfile: src/gateways/Sapphire.Gateway/Dockerfile
+    container_name: sapphire-gateway
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-api
+      - billing-api
+      - session-api
+
+volumes:
+  auth_data:
+  billing_data:
+  session_data:

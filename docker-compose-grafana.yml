@@ -1,0 +1,12 @@
+grafana:
+  image: grafana/grafana:latest
+  container_name: sapphire-grafana
+  ports:
+    - '3000:3000'
+  volumes:
+    - .grafana:/etc/grafana
+    - ./grafana/provisioning:/etc/grafana/provisioning
+  depends_on:
+    - prometheus
+  networks:
+    - sapphire-net

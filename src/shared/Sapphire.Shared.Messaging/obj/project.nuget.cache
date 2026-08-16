@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "xvwrd0wZV9o=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Kuka\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

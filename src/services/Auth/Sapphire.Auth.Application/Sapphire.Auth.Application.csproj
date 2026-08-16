@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.2.0" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sapphire.Auth.Domain\Sapphire.Auth.Domain.csproj" />
+    <ProjectReference Include="..\..\..\shared\Sapphire.Shared.Abstractions\Sapphire.Shared.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\bin\Debug\net9.0\Sapphire.Auth.Domain.deps.json
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\bin\Debug\net9.0\Sapphire.Auth.Domain.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\bin\Debug\net9.0\Sapphire.Auth.Domain.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\bin\Debug\net9.0\Sapphire.Shared.Abstractions.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\bin\Debug\net9.0\Sapphire.Shared.Kernel.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\bin\Debug\net9.0\Sapphire.Shared.Kernel.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\bin\Debug\net9.0\Sapphire.Shared.Abstractions.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.Auth.Domain.csproj.AssemblyReference.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.Auth.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.Auth.Domain.AssemblyInfoInputs.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.Auth.Domain.AssemblyInfo.cs
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.Auth.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.D75CED5B.Up2Date
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.Auth.Domain.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\refint\Sapphire.Auth.Domain.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\Sapphire.Auth.Domain.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\services\Auth\Sapphire.Auth.Domain\obj\Debug\net9.0\ref\Sapphire.Auth.Domain.dll

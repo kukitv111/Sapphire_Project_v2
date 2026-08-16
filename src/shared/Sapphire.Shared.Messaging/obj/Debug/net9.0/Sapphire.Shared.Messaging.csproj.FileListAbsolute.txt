@@ -1,0 +1,12 @@
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\bin\Debug\net9.0\Sapphire.Shared.Messaging.deps.json
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\bin\Debug\net9.0\Sapphire.Shared.Messaging.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\bin\Debug\net9.0\Sapphire.Shared.Messaging.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\Sapphire.Shared.Messaging.csproj.AssemblyReference.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\Sapphire.Shared.Messaging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\Sapphire.Shared.Messaging.AssemblyInfoInputs.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\Sapphire.Shared.Messaging.AssemblyInfo.cs
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\Sapphire.Shared.Messaging.csproj.CoreCompileInputs.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\Sapphire.Shared.Messaging.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\refint\Sapphire.Shared.Messaging.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\Sapphire.Shared.Messaging.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Messaging\obj\Debug\net9.0\ref\Sapphire.Shared.Messaging.dll

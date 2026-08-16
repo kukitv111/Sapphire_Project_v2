@@ -1,0 +1,433 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0-windows7.0": {
+      "CommunityToolkit.Mvvm/8.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/CommunityToolkit.Mvvm.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/CommunityToolkit.Mvvm.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/CommunityToolkit.Mvvm.targets": {}
+        }
+      },
+      "MaterialDesignColors/3.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/MaterialDesignColors.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/MaterialDesignColors.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "MaterialDesignThemes/5.1.0": {
+        "type": "package",
+        "dependencies": {
+          "MaterialDesignColors": "3.1.0",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.39"
+        },
+        "compile": {
+          "lib/net8.0/MaterialDesignThemes.Wpf.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/MaterialDesignThemes.Wpf.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "build/MaterialDesignThemes.targets": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection/9.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
+        },
+        "compile": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
+      "System.Net.Http.Json/9.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/System.Net.Http.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/System.Net.Http.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CommunityToolkit.Mvvm/8.4.0": {
+      "sha512": "tqVU8yc/ADO9oiTRyTnwhFN68hCwvkliMierptWOudIAvWY1mWCh5VFh+guwHJmpMwfg0J0rY+yyd5Oy7ty9Uw==",
+      "type": "package",
+      "path": "communitytoolkit.mvvm/8.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "License.md",
+        "ThirdPartyNotices.txt",
+        "analyzers/dotnet/roslyn4.0/cs/CommunityToolkit.Mvvm.CodeFixers.dll",
+        "analyzers/dotnet/roslyn4.0/cs/CommunityToolkit.Mvvm.SourceGenerators.dll",
+        "analyzers/dotnet/roslyn4.12/cs/CommunityToolkit.Mvvm.CodeFixers.dll",
+        "analyzers/dotnet/roslyn4.12/cs/CommunityToolkit.Mvvm.SourceGenerators.dll",
+        "analyzers/dotnet/roslyn4.3/cs/CommunityToolkit.Mvvm.CodeFixers.dll",
+        "analyzers/dotnet/roslyn4.3/cs/CommunityToolkit.Mvvm.SourceGenerators.dll",
+        "build/CommunityToolkit.Mvvm.FeatureSwitches.targets",
+        "build/CommunityToolkit.Mvvm.SourceGenerators.targets",
+        "build/CommunityToolkit.Mvvm.Windows.targets",
+        "build/CommunityToolkit.Mvvm.WindowsSdk.targets",
+        "build/CommunityToolkit.Mvvm.targets",
+        "buildTransitive/CommunityToolkit.Mvvm.FeatureSwitches.targets",
+        "buildTransitive/CommunityToolkit.Mvvm.SourceGenerators.targets",
+        "buildTransitive/CommunityToolkit.Mvvm.Windows.targets",
+        "buildTransitive/CommunityToolkit.Mvvm.WindowsSdk.targets",
+        "buildTransitive/CommunityToolkit.Mvvm.targets",
+        "communitytoolkit.mvvm.8.4.0.nupkg.sha512",
+        "communitytoolkit.mvvm.nuspec",
+        "lib/net8.0-windows10.0.17763/CommunityToolkit.Mvvm.dll",
+        "lib/net8.0-windows10.0.17763/CommunityToolkit.Mvvm.pdb",
+        "lib/net8.0-windows10.0.17763/CommunityToolkit.Mvvm.xml",
+        "lib/net8.0/CommunityToolkit.Mvvm.dll",
+        "lib/net8.0/CommunityToolkit.Mvvm.pdb",
+        "lib/net8.0/CommunityToolkit.Mvvm.xml",
+        "lib/netstandard2.0/CommunityToolkit.Mvvm.dll",
+        "lib/netstandard2.0/CommunityToolkit.Mvvm.pdb",
+        "lib/netstandard2.0/CommunityToolkit.Mvvm.xml",
+        "lib/netstandard2.1/CommunityToolkit.Mvvm.dll",
+        "lib/netstandard2.1/CommunityToolkit.Mvvm.pdb",
+        "lib/netstandard2.1/CommunityToolkit.Mvvm.xml"
+      ]
+    },
+    "MaterialDesignColors/3.1.0": {
+      "sha512": "J2mpZBWx0wArrMCK8E0Cqfsy+Wh3iRDVnznp5/84B1KcnTKI9u9Pyt2zN0oSQGsa6NhvwdUErbhE3jJd6iRTxw==",
+      "type": "package",
+      "path": "materialdesigncolors/3.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "docs/README.md",
+        "images/MaterialDesignColors.Icon.png",
+        "lib/net462/MaterialDesignColors.dll",
+        "lib/net462/MaterialDesignColors.pdb",
+        "lib/net6.0/MaterialDesignColors.dll",
+        "lib/net6.0/MaterialDesignColors.pdb",
+        "lib/net8.0/MaterialDesignColors.dll",
+        "lib/net8.0/MaterialDesignColors.pdb",
+        "materialdesigncolors.3.1.0.nupkg.sha512",
+        "materialdesigncolors.nuspec"
+      ]
+    },
+    "MaterialDesignThemes/5.1.0": {
+      "sha512": "k5lO0NqhExrCLnFWnapI+a2XvOOm/Mwz92GwUq4CvNrahMMPx9puALE8VJlLNeNxUYjWf2+PAKPGpmr1u1QDfg==",
+      "type": "package",
+      "path": "materialdesignthemes/5.1.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/MaterialDesignThemes.targets",
+        "build/Resources/Roboto/Roboto-Black.ttf",
+        "build/Resources/Roboto/Roboto-BlackItalic.ttf",
+        "build/Resources/Roboto/Roboto-Bold.ttf",
+        "build/Resources/Roboto/Roboto-BoldItalic.ttf",
+        "build/Resources/Roboto/Roboto-Italic.ttf",
+        "build/Resources/Roboto/Roboto-Light.ttf",
+        "build/Resources/Roboto/Roboto-LightItalic.ttf",
+        "build/Resources/Roboto/Roboto-Medium.ttf",
+        "build/Resources/Roboto/Roboto-MediumItalic.ttf",
+        "build/Resources/Roboto/Roboto-Regular.ttf",
+        "build/Resources/Roboto/Roboto-Thin.ttf",
+        "build/Resources/Roboto/Roboto-ThinItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Bold.ttf",
+        "build/Resources/Roboto/RobotoCondensed-BoldItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Italic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Light.ttf",
+        "build/Resources/Roboto/RobotoCondensed-LightItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Regular.ttf",
+        "docs/README.md",
+        "images/MaterialDesignThemes.Icon.png",
+        "lib/net462/MaterialDesignThemes.Wpf.dll",
+        "lib/net462/MaterialDesignThemes.Wpf.pdb",
+        "lib/net462/MaterialDesignThemes.Wpf.xml",
+        "lib/net6.0/MaterialDesignThemes.Wpf.dll",
+        "lib/net6.0/MaterialDesignThemes.Wpf.pdb",
+        "lib/net6.0/MaterialDesignThemes.Wpf.xml",
+        "lib/net8.0/MaterialDesignThemes.Wpf.dll",
+        "lib/net8.0/MaterialDesignThemes.Wpf.pdb",
+        "lib/net8.0/MaterialDesignThemes.Wpf.xml",
+        "materialdesignthemes.5.1.0.nupkg.sha512",
+        "materialdesignthemes.nuspec",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "Microsoft.Extensions.DependencyInjection/9.0.0": {
+      "sha512": "MCPrg7v3QgNMr0vX4vzRXvkNGgLg8vKWX0nKCWUxu2uPyMsaRgiRc1tHBnbTcfJMhMKj2slE/j2M9oGkd25DNw==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.targets",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/net8.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net8.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.xml",
+        "microsoft.extensions.dependencyinjection.9.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
+      "sha512": "+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+      "sha512": "8PZKqw9QOcu42xk8puY4P1+EXHL9YGOR9b7qhaYx5cILHul456H073tj99vyPcCt0W0781T9RwHqkx507ZyUpQ==",
+      "type": "package",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.39",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Design/Microsoft.Xaml.Behaviors.Design.dll",
+        "lib/net45/Microsoft.Xaml.Behaviors.dll",
+        "lib/net45/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net45/Microsoft.Xaml.Behaviors.xml",
+        "lib/net5.0-windows7.0/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.xml",
+        "lib/netcoreapp3.1/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.dll",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.pdb",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.xml",
+        "microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+        "microsoft.xaml.behaviors.wpf.nuspec",
+        "tools/Install.ps1"
+      ]
+    },
+    "System.Net.Http.Json/9.0.0": {
+      "sha512": "e8s0BFOwHaFTqz6wi3l+9tm0SuKOUs5wiahHTjnAabF9n1+0NuZeG/vOLo2vSfUp+DlIChaRfnAiOFkRpHN/ew==",
+      "type": "package",
+      "path": "system.net.http.json/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Net.Http.Json.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Net.Http.Json.targets",
+        "lib/net462/System.Net.Http.Json.dll",
+        "lib/net462/System.Net.Http.Json.xml",
+        "lib/net8.0/System.Net.Http.Json.dll",
+        "lib/net8.0/System.Net.Http.Json.xml",
+        "lib/net9.0/System.Net.Http.Json.dll",
+        "lib/net9.0/System.Net.Http.Json.xml",
+        "lib/netstandard2.0/System.Net.Http.Json.dll",
+        "lib/netstandard2.0/System.Net.Http.Json.xml",
+        "system.net.http.json.9.0.0.nupkg.sha512",
+        "system.net.http.json.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0-windows7.0": [
+      "CommunityToolkit.Mvvm >= 8.4.0",
+      "MaterialDesignThemes >= 5.1.0",
+      "Microsoft.Extensions.DependencyInjection >= 9.0.0",
+      "System.Net.Http.Json >= 9.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Kuka\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\clients\\Sapphire.Client.Desktop\\Sapphire.Client.Desktop.csproj",
+      "projectName": "Sapphire.Client.Desktop",
+      "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\clients\\Sapphire.Client.Desktop\\Sapphire.Client.Desktop.csproj",
+      "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\clients\\Sapphire.Client.Desktop\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0-windows"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net9.0-windows7.0": {
+        "targetAlias": "net9.0-windows",
+        "dependencies": {
+          "CommunityToolkit.Mvvm": {
+            "target": "Package",
+            "version": "[8.4.0, )"
+          },
+          "MaterialDesignThemes": {
+            "target": "Package",
+            "version": "[5.1.0, )"
+          },
+          "Microsoft.Extensions.DependencyInjection": {
+            "target": "Package",
+            "version": "[9.0.0, )"
+          },
+          "System.Net.Http.Json": {
+            "target": "Package",
+            "version": "[9.0.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WPF": {
+            "privateAssets": "none"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sapphire.Session.Application\Sapphire.Session.Application.csproj" />
+    <ProjectReference Include="..\Sapphire.Session.Infrastructure\Sapphire.Session.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\shared\Sapphire.Shared.Security\Sapphire.Shared.Security.csproj" />
+  </ItemGroup>
+
+</Project>

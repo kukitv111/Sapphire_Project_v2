@@ -1,0 +1,11 @@
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\bin\Debug\net9.0\Sapphire.Shared.Abstractions.deps.json
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\bin\Debug\net9.0\Sapphire.Shared.Abstractions.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\bin\Debug\net9.0\Sapphire.Shared.Abstractions.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\Sapphire.Shared.Abstractions.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\Sapphire.Shared.Abstractions.AssemblyInfoInputs.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\Sapphire.Shared.Abstractions.AssemblyInfo.cs
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\Sapphire.Shared.Abstractions.csproj.CoreCompileInputs.cache
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\Sapphire.Shared.Abstractions.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\refint\Sapphire.Shared.Abstractions.dll
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\Sapphire.Shared.Abstractions.pdb
+C:\Users\Kuka\Documents\Sapphire_Project\src\shared\Sapphire.Shared.Abstractions\obj\Debug\net9.0\ref\Sapphire.Shared.Abstractions.dll

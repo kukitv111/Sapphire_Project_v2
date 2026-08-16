@@ -1,0 +1,146 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Sapphire.Shared.Security.Jwt;
+
+/// <summary>
+/// JWT token service for generating and validating tokens.
+/// </summary>
+public sealed class TokenService
+{
+    private readonly JwtOptions _options;
+    private readonly SymmetricSecurityKey? _symmetricKey;
+    private readonly RsaSecurityKey? _rsaKey;
+
+    public TokenService(JwtOptions options)
+    {
+        _options = options ?? throw new ArgumentNullException(nameof(options));
+
+        if (options.UseRsa)
+        {
+            var rsa = RSA.Create();
+            if (!string.IsNullOrEmpty(options.RsaPrivateKeyPem))
+            {
+                rsa.ImportFromPem(options.RsaPrivateKeyPem);
+            }
+            _rsaKey = new RsaSecurityKey(rsa);
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(options.SecretKey) || options.SecretKey.Length < 32)
+                throw new ArgumentException("SecretKey must be at least 32 characters", nameof(options));
+
+            _symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey));
+        }
+    }
+
+    /// <summary>
+    /// Generates an access token for a user.
+    /// </summary>
+    public string GenerateAccessToken(Guid userId, string email, IEnumerable<string> roles, IEnumerable<string> permissions)
+    {
+        var claims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new(JwtRegisteredClaimNames.Email, email),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+        };
+
+        // Add roles as claims
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new Claim("role", role));
+        }
+
+        // Add permissions as claims
+        foreach (var permission in permissions)
+        {
+            claims.Add(new Claim("permission", permission));
+        }
+
+        var signingCredentials = _rsaKey != null
+            ? new SigningCredentials(_rsaKey, SecurityAlgorithms.RsaSha256)
+            : new SigningCredentials(_symmetricKey!, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: _options.Issuer,
+            audience: _options.Audience,
+            claims: claims,
+            notBefore: DateTime.UtcNow,
+            expires: DateTime.UtcNow.AddMinutes(_options.AccessTokenExpirationMinutes),
+            signingCredentials: signingCredentials);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    /// <summary>
+    /// Generates a refresh token.
+    /// </summary>
+    public (string Token, DateTime ExpiresAt) GenerateRefreshToken()
+    {
+        var randomBytes = RandomNumberGenerator.GetBytes(64);
+        var token = Convert.ToBase64String(randomBytes);
+        var expiresAt = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays);
+        return (token, expiresAt);
+    }
+
+    /// <summary>
+    /// Gets the validation parameters for token validation.
+    /// </summary>
+    public TokenValidationParameters GetValidationParameters()
+    {
+        SecurityKey signingKey = _rsaKey ?? (SecurityKey)_symmetricKey!;
+
+        return new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = _options.Issuer,
+            ValidAudience = _options.Audience,
+            IssuerSigningKey = signingKey,
+            ClockSkew = TimeSpan.FromSeconds(30)
+        };
+    }
+
+    /// <summary>
+    /// Validates a token and extracts the principal.
+    /// </summary>
+    public ClaimsPrincipal? ValidateToken(string token)
+    {
+        try
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var principal = handler.ValidateToken(token, GetValidationParameters(), out _);
+            return principal;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Extracts user ID from a token without full validation.
+    /// </summary>
+    public Guid? GetUserIdFromToken(string token)
+    {
+        try
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var subClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
+            return subClaim != null ? Guid.Parse(subClaim.Value) : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+}

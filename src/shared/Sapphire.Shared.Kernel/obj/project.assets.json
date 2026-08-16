@@ -1,0 +1,129 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "MediatR.Contracts/2.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/MediatR.Contracts.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/MediatR.Contracts.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Sapphire.Shared.Abstractions/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Sapphire.Shared.Abstractions.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Sapphire.Shared.Abstractions.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MediatR.Contracts/2.0.1": {
+      "sha512": "FYv95bNT4UwcNA+G/J1oX5OpRiSUxteXaUt2BJbRSdRNiIUNbggJF69wy6mnk2wYToaanpdXZdCwVylt96MpwQ==",
+      "type": "package",
+      "path": "mediatr.contracts/2.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gradient_128x128.png",
+        "lib/netstandard2.0/MediatR.Contracts.dll",
+        "lib/netstandard2.0/MediatR.Contracts.xml",
+        "mediatr.contracts.2.0.1.nupkg.sha512",
+        "mediatr.contracts.nuspec"
+      ]
+    },
+    "Sapphire.Shared.Abstractions/1.0.0": {
+      "type": "project",
+      "path": "../Sapphire.Shared.Abstractions/Sapphire.Shared.Abstractions.csproj",
+      "msbuildProject": "../Sapphire.Shared.Abstractions/Sapphire.Shared.Abstractions.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "MediatR.Contracts >= 2.0.1",
+      "Sapphire.Shared.Abstractions >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Kuka\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj",
+      "projectName": "Sapphire.Shared.Kernel",
+      "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj",
+      "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj": {
+              "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "dependencies": {
+          "MediatR.Contracts": {
+            "target": "Package",
+            "version": "[2.0.1, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
