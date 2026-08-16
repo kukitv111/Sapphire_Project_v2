@@ -26,10 +26,22 @@ builder.Services.AddProblemDetails();
 builder.Services.AddBillingApplication();
 builder.Services.AddBillingInfrastructure(builder.Configuration);
 
-// Configure JWT options
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
+// Configure JWT options with validation
+var jwtSection = builder.Configuration.GetSection(JwtOptions.SectionName);
+var jwtOptions = jwtSection.Get<JwtOptions>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+if (jwtOptions == null)
+{
+    throw new InvalidOperationException("JWT configuration is missing");
+}
+if (string.IsNullOrEmpty(jwtOptions.SecretKey))
+{
+    throw new InvalidOperationException("JWT secret key is missing or empty");
+}
+
+builder.Services.Configure<JwtOptions>(jwtSection);
+
+// Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
     options =>

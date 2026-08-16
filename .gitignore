@@ -1,0 +1,32 @@
+# .NET
+bin/
+obj/
+*.user
+*.sln.dotsettings
+
+# Node
+node_modules/
+dist/
+build/
+
+# IDEs
+.vs/
+*.suo
+*.ntvs*
+*.njsproj*
+*.log
+
+# Secrets
+.env
+appsettings.Development.json
+secrets.json
+
+# Other
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.db
+*.sqlite3

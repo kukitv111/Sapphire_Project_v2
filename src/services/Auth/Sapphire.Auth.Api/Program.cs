@@ -7,34 +7,54 @@ using Sapphire.Auth.Application.Interfaces;
 using Sapphire.Auth.Infrastructure;
 using Sapphire.Shared.Security.Jwt;
 
+public partial class Program { }
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Добавить сервисы Application и Infrastructure
+// Add services
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
-builder.Services.AddSingleton(_ => new TokenService(
-    builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()
-    ?? throw new InvalidOperationException("Jwt configuration is missing")));
+builder.Services.AddSingleton(_ =>
+{
+    var options = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
+    if (options == null)
+    {
+        throw new InvalidOperationException("JWT configuration is missing");
+    }
+    if (string.IsNullOrEmpty(options.SecretKey))
+    {
+        throw new InvalidOperationException("JWT secret key is missing or empty");
+    }
+    return new TokenService(options);
+});
 builder.Services.AddAuthApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
-// Добавить аутентификацию JWT
+// Add JWT authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var jwtOptions = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()
+            ?? throw new InvalidOperationException("JWT configuration is missing");
+
+        if (string.IsNullOrEmpty(jwtOptions.SecretKey))
+        {
+            throw new InvalidOperationException("JWT secret key is missing or empty");
+        }
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!))
+            ValidIssuer = jwtOptions.Issuer,
+            ValidAudience = jwtOptions.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
         };
     });
 
-// Добавить контроллеры и OpenAPI
+// Add controllers and OpenAPI
 builder.Services.AddControllers();
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(policy => {
@@ -48,13 +68,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Initialize database
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<Sapphire.Auth.Infrastructure.Persistence.AuthDbContext>();
     db.Database.EnsureCreated();
 }
 
-// Конфигурация конвейера
+// Configure pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

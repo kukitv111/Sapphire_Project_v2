@@ -21,6 +21,16 @@ builder.Services.AddProblemDetails();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+// Authentication
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    builder.Configuration.GetSection("JwtOptions").Bind(options);
+    if (string.IsNullOrEmpty(options.Secret))
+    {
+        throw new InvalidOperationException("JWT secret is not configured.");
+    }
+});
+
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

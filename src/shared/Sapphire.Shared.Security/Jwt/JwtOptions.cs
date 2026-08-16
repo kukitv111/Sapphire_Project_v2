@@ -1,3 +1,4 @@
+using System;
 using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 
@@ -43,12 +44,12 @@ public sealed class JwtOptions
     /// <summary>
     /// RSA private key PEM (if UseRsa is true).
     /// </summary>
-    public string? RsaPrivateKeyPem { get; set; }
+    public string? RsaPrivateKeyPem { get; set; } = null;
 
     /// <summary>
     /// RSA public key PEM (if UseRsa is true).
     /// </summary>
-    public string? RsaPublicKeyPem { get; set; }
+    public string? RsaPublicKeyPem { get; set; } = null;
 
     /// <summary>
     /// Gets RSA parameters from PEM-encoded private key.

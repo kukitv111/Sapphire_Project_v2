@@ -1,23 +1,27 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Sapphire.Session.Application.Commands.StartSession;
-using Sapphire.Session.Application.DTOs;
-using Sapphire.Shared.Kernel.Common;
-
-namespace Sapphire.Session.Api.Controllers;
-
-[ApiController]
-[Route("api/sessions")]
+[Authorize]
 public class SessionController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly ICurrentUserService _currentUserService;
 
-    public SessionController(IMediator mediator)
+    public SessionController(IMediator mediator, ICurrentUserService currentUserService)
     {
         _mediator = mediator;
+        _currentUserService = currentUserService;
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<Result<SessionDto>> StartSession(StartSessionCommand command)
-        => await _mediator.Send(command);
+    {
+        return await _mediator.Send(command);
+    }
+
+    [HttpPost("end")]
+    [Authorize]
+    public async Task<Result> EndSession()
+    {
+        var command = new EndSessionCommand(_currentUserService.UserId);
+        return await _mediator.Send(command);
+    }
 }
