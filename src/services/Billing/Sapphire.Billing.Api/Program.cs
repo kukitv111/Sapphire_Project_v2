@@ -27,6 +27,11 @@ builder.Services.AddProblemDetails();
 builder.Services.AddBillingApplication();
 builder.Services.AddBillingInfrastructure(builder.Configuration);
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddBillingDatabaseInitializer();
+}
+
 var jwtSection = builder.Configuration.GetSection(JwtOptions.SectionName);
 var jwtOptions = jwtSection.Get<JwtOptions>();
 JwtOptionsValidator.Validate(jwtOptions, builder.Environment.EnvironmentName);
@@ -88,6 +93,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    scope.ServiceProvider.GetRequiredService<BillingDatabaseInitializer>().Initialize();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sapphire Billing API v1"));
 }

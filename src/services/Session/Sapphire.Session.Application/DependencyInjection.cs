@@ -10,7 +10,7 @@ namespace Sapphire.Session.Application;
 /// </summary>
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddSessionApplication(this IServiceCollection services)
     {
         var assembly = Assembly.GetExecutingAssembly();
 

@@ -14,7 +14,7 @@ namespace Sapphire.Auth.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAuthInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         // DB Context
         services.AddDbContext<AuthDbContext>(options =>
@@ -35,4 +35,16 @@ public static class DependencyInjection
 
         return services;
     }
+
+    public static IServiceCollection AddAuthDatabaseInitializer(this IServiceCollection services)
+    {
+        // NOTE: Temporary technical debt. Remove before production release.
+        services.AddScoped<AuthDatabaseInitializer>();
+        return services;
+    }
+}
+
+public class AuthDatabaseInitializer(AuthDbContext dbContext)
+{
+    public void Initialize() => dbContext.Database.EnsureCreated();
 }

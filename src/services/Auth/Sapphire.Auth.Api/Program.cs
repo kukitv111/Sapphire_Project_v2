@@ -18,7 +18,12 @@ builder.Services.AddSingleton(_ =>
     return new TokenService(options!);
 });
 builder.Services.AddAuthApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAuthInfrastructure(builder.Configuration);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddAuthDatabaseInitializer();
+}
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -51,14 +56,10 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<Sapphire.Auth.Infrastructure.Persistence.AuthDbContext>();
-    db.Database.EnsureCreated();
-}
-
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    scope.ServiceProvider.GetRequiredService<AuthDatabaseInitializer>().Initialize();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

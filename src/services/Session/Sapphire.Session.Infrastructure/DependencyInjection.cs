@@ -10,7 +10,7 @@ namespace Sapphire.Session.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSessionInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         // DB Context
         services.AddDbContext<SessionDbContext>(options =>
@@ -23,4 +23,15 @@ public static class DependencyInjection
 
         return services;
     }
+
+    public static IServiceCollection AddSessionDatabaseInitializer(this IServiceCollection services)
+    {
+        services.AddScoped<SessionDatabaseInitializer>();
+        return services;
+    }
+}
+
+public class SessionDatabaseInitializer(SessionDbContext dbContext)
+{
+    public void Initialize() => dbContext.Database.EnsureCreated();
 }

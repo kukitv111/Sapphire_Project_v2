@@ -20,8 +20,13 @@ builder.Services.AddCors(options => {
 });
 builder.Services.AddProblemDetails();
 
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddSessionApplication();
+builder.Services.AddSessionInfrastructure(builder.Configuration);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddSessionDatabaseInitializer();
+}
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -49,6 +54,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    scope.ServiceProvider.GetRequiredService<SessionDatabaseInitializer>().Initialize();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
