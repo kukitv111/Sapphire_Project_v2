@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v9.0": {
       "Sapphire.Session.Api/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.4",
           "Sapphire.Session.Application": "1.0.0",
           "Sapphire.Session.Infrastructure": "1.0.0",

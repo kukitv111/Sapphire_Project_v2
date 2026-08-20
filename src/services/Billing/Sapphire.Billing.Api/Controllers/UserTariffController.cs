@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sapphire.Billing.Application.Commands.AssignTariffToUser;
 using Sapphire.Billing.Application.DTOs;
@@ -8,6 +9,7 @@ namespace Sapphire.Billing.Api.Controllers;
 
 [ApiController]
 [Route("api/billing/users/{userId}/tariffs")]
+[Authorize]
 public class UserTariffController : ControllerBase
 {
     private readonly IMediator _mediator;

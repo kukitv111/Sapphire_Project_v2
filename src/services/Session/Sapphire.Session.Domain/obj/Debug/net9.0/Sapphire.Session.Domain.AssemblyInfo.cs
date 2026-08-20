@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sapphire.Session.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e42b7f8667ac808e0c7a6b6f69ee6e72b0ea026f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sapphire.Session.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sapphire.Session.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

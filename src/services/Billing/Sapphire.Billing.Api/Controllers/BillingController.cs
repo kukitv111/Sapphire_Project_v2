@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sapphire.Billing.Application.Commands.ApplyPromocode;
 using Sapphire.Billing.Application.Commands.CreateTariff;
@@ -9,6 +10,7 @@ namespace Sapphire.Billing.Api.Controllers;
 
 [ApiController]
 [Route("api/billing")]
+[Authorize]
 public class BillingController : ControllerBase
 {
     private readonly IMediator _mediator;

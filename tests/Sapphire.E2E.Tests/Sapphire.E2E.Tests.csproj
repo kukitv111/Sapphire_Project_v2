@@ -19,6 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Api\Sapphire.Auth.Api.csproj" />
+    <ProjectReference Include="..\..\src\services\Billing\Sapphire.Billing.Api\Sapphire.Billing.Api.csproj" />
+    <ProjectReference Include="..\..\src\services\Session\Sapphire.Session.Api\Sapphire.Session.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sapphire.Auth.Application.Commands.ChangePassword;
 using Sapphire.Auth.Application.Commands.Login;
@@ -33,6 +34,7 @@ public class AuthController : ControllerBase
         => await _mediator.Send(command);
 
     [HttpPost("change-password")]
+    [Authorize]
     public async Task<Result> ChangePassword(ChangePasswordCommand command)
         => await _mediator.Send(command);
 }

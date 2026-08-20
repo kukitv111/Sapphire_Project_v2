@@ -4,6 +4,1226 @@
     "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\tests\\Sapphire.E2E.Tests\\Sapphire.E2E.Tests.csproj": {}
   },
   "projects": {
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Api\\Sapphire.Auth.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Api\\Sapphire.Auth.Api.csproj",
+        "projectName": "Sapphire.Auth.Api",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Api\\Sapphire.Auth.Api.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\Sapphire.Auth.Application.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\Sapphire.Auth.Application.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Infrastructure\\Sapphire.Auth.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Infrastructure\\Sapphire.Auth.Infrastructure.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[7.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\Sapphire.Auth.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\Sapphire.Auth.Application.csproj",
+        "projectName": "Sapphire.Auth.Application",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\Sapphire.Auth.Application.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\Sapphire.Auth.Domain.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\Sapphire.Auth.Domain.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[16.2.0, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.11.0, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[11.11.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\Sapphire.Auth.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\Sapphire.Auth.Domain.csproj",
+        "projectName": "Sapphire.Auth.Domain",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\Sapphire.Auth.Domain.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Infrastructure\\Sapphire.Auth.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Infrastructure\\Sapphire.Auth.Infrastructure.csproj",
+        "projectName": "Sapphire.Auth.Infrastructure",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Infrastructure\\Sapphire.Auth.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\Sapphire.Auth.Application.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application\\Sapphire.Auth.Application.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\Sapphire.Auth.Domain.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain\\Sapphire.Auth.Domain.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj"
+              }
+            }
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Api\\Sapphire.Billing.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Api\\Sapphire.Billing.Api.csproj",
+        "projectName": "Sapphire.Billing.Api",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Api\\Sapphire.Billing.Api.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\Sapphire.Billing.Application.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\Sapphire.Billing.Application.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Infrastructure\\Sapphire.Billing.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Infrastructure\\Sapphire.Billing.Infrastructure.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[7.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\Sapphire.Billing.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\Sapphire.Billing.Application.csproj",
+        "projectName": "Sapphire.Billing.Application",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\Sapphire.Billing.Application.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\Sapphire.Billing.Domain.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\Sapphire.Billing.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[16.2.0, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.11.0, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[11.11.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\Sapphire.Billing.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\Sapphire.Billing.Domain.csproj",
+        "projectName": "Sapphire.Billing.Domain",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\Sapphire.Billing.Domain.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Infrastructure\\Sapphire.Billing.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Infrastructure\\Sapphire.Billing.Infrastructure.csproj",
+        "projectName": "Sapphire.Billing.Infrastructure",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Infrastructure\\Sapphire.Billing.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\Sapphire.Billing.Application.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application\\Sapphire.Billing.Application.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\Sapphire.Billing.Domain.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain\\Sapphire.Billing.Domain.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Api\\Sapphire.Session.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Api\\Sapphire.Session.Api.csproj",
+        "projectName": "Sapphire.Session.Api",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Api\\Sapphire.Session.Api.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Application\\Sapphire.Session.Application.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Application\\Sapphire.Session.Application.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Infrastructure\\Sapphire.Session.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Infrastructure\\Sapphire.Session.Infrastructure.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[7.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Application\\Sapphire.Session.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Application\\Sapphire.Session.Application.csproj",
+        "projectName": "Sapphire.Session.Application",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Application\\Sapphire.Session.Application.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\Sapphire.Session.Domain.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\Sapphire.Session.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[16.2.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\Sapphire.Session.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\Sapphire.Session.Domain.csproj",
+        "projectName": "Sapphire.Session.Domain",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\Sapphire.Session.Domain.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Infrastructure\\Sapphire.Session.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Infrastructure\\Sapphire.Session.Infrastructure.csproj",
+        "projectName": "Sapphire.Session.Infrastructure",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Infrastructure\\Sapphire.Session.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\Sapphire.Session.Domain.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain\\Sapphire.Session.Domain.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj",
+        "projectName": "Sapphire.Shared.Abstractions",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj",
+        "projectName": "Sapphire.Shared.Kernel",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\Sapphire.Shared.Kernel.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "MediatR.Contracts": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj",
+        "projectName": "Sapphire.Shared.Messaging",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\Sapphire.Shared.Messaging.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "MediatR.Contracts": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj",
+        "projectName": "Sapphire.Shared.Security",
+        "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\Sapphire.Shared.Security.csproj",
+        "packagesPath": "C:\\Users\\Kuka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kuka\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions\\Sapphire.Shared.Abstractions.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.316/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\tests\\Sapphire.E2E.Tests\\Sapphire.E2E.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -25,7 +1245,17 @@
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Api\\Sapphire.Auth.Api.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Api\\Sapphire.Auth.Api.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Api\\Sapphire.Billing.Api.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Api\\Sapphire.Billing.Api.csproj"
+              },
+              "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Api\\Sapphire.Session.Api.csproj": {
+                "projectPath": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Api\\Sapphire.Session.Api.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

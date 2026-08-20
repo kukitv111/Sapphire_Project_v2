@@ -1,1 +1,18 @@
-{ }
+{
+  "Sapphire.Auth.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Api",
+  "Sapphire.Auth.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Application",
+  "Sapphire.Auth.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Domain",
+  "Sapphire.Auth.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Auth\\Sapphire.Auth.Infrastructure",
+  "Sapphire.Billing.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Api",
+  "Sapphire.Billing.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Application",
+  "Sapphire.Billing.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Domain",
+  "Sapphire.Billing.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Billing\\Sapphire.Billing.Infrastructure",
+  "Sapphire.Session.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Api",
+  "Sapphire.Session.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Application",
+  "Sapphire.Session.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Domain",
+  "Sapphire.Session.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\services\\Session\\Sapphire.Session.Infrastructure",
+  "Sapphire.Shared.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Abstractions",
+  "Sapphire.Shared.Kernel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Kernel",
+  "Sapphire.Shared.Messaging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Messaging",
+  "Sapphire.Shared.Security, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\Kuka\\Documents\\Sapphire_Project\\src\\shared\\Sapphire.Shared.Security"
+}
