@@ -7,7 +7,7 @@ services:
     container_name: sapphire-auth-db
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: sapphire_auth
     ports:
       - "5433:5432"
@@ -26,8 +26,8 @@ services:
     container_name: sapphire-auth-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Auth: "Host=auth-db;Database=sapphire_auth;Username=admin;Password=password"
-      Jwt__SecretKey: "super-secret-key-must-be-at-least-32-chars!"
+      ConnectionStrings__Auth: "Host=auth-db;Database=sapphire_auth;Username=admin;Password=${DB_PASSWORD}"
+      Jwt__SecretKey: "${JWT_SECRET_KEY}"
       Jwt__Issuer: "https://sapphire.auth"
       Jwt__Audience: "https://sapphire.client"
       Jwt__AccessTokenExpirationMinutes: "15"
@@ -44,7 +44,7 @@ services:
     container_name: sapphire-billing-db
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: sapphire_billing
     ports:
       - "5434:5432"
@@ -63,7 +63,7 @@ services:
     container_name: sapphire-billing-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Billing: "Host=billing-db;Database=sapphire_billing;Username=admin;Password=password"
+      ConnectionStrings__Billing: "Host=billing-db;Database=sapphire_billing;Username=admin;Password=${DB_PASSWORD}"
     ports:
       - "5002:8080"
     depends_on:
@@ -76,7 +76,7 @@ services:
     container_name: sapphire-session-db
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: sapphire_session
     ports:
       - "5435:5432"
@@ -95,7 +95,7 @@ services:
     container_name: sapphire-session-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Session: "Host=session-db;Database=sapphire_session;Username=admin;Password=password"
+      ConnectionStrings__Session: "Host=session-db;Database=sapphire_session;Username=admin;Password=${DB_PASSWORD}"
     ports:
       - "5003:8080"
     depends_on:

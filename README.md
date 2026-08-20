@@ -21,14 +21,14 @@ dotnet test Sapphire.sln --no-build --configuration Release
 
 #### Frontend (Admin UI)
 ```bash
-cd src/client/admin-ui
+cd admin-react
 npm install
 npm run build
 ```
 
 #### Local Run (Docker)
 ```bash
-docker-compose -f docker-compose.dev.yml up --build
+docker-compose up --build
 ```
 
 ## Architecture
