@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
     <PackageReference Include="xunit" Version="2.9.2" />
@@ -16,14 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Api\Sapphire.Auth.Api.csproj" />
-    <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Application\Sapphire.Auth.Application.csproj" />
     <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Domain\Sapphire.Auth.Domain.csproj" />
-    <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Infrastructure\Sapphire.Auth.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Application\Sapphire.Auth.Application.csproj" />
+    <ProjectReference Include="..\..\src\services\Billing\Sapphire.Billing.Domain\Sapphire.Billing.Domain.csproj" />
+    <ProjectReference Include="..\..\src\services\Session\Sapphire.Session.Domain\Sapphire.Session.Domain.csproj" />
   </ItemGroup>
 
 </Project>
