@@ -129,7 +129,15 @@ public sealed class SecurityTests
     [Fact]
     public void Development_ExplicitNonDefaultSecret_IsAccepted()
     {
-        var act = () => JwtOptionsValidator.Validate(new JwtOptions { SecretKey = TestSecret }, "Development");
+        var options = new JwtOptions 
+        { 
+            SecretKey = TestSecret, 
+            Issuer = "test", 
+            Audience = "test", 
+            AccessTokenExpirationMinutes = 15,
+            RefreshTokenExpirationDays = 30
+        };
+        var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().NotThrow();
     }
 

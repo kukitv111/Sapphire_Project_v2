@@ -25,23 +25,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddAuthDatabaseInitializer();
 }
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.MapInboundClaims = false;
-        var jwtOptions = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
-        JwtOptionsValidator.Validate(jwtOptions, builder.Environment.EnvironmentName);
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtOptions!.Issuer,
-            ValidAudience = jwtOptions.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
-        };
-    });
+builder.Services.AddJwtAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddCors(options => {

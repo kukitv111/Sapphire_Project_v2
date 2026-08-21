@@ -32,25 +32,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddBillingDatabaseInitializer();
 }
 
-var jwtSection = builder.Configuration.GetSection(JwtOptions.SectionName);
-var jwtOptions = jwtSection.Get<JwtOptions>();
-JwtOptionsValidator.Validate(jwtOptions, builder.Environment.EnvironmentName);
-builder.Services.Configure<JwtOptions>(jwtSection);
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.MapInboundClaims = false;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtOptions!.Issuer,
-            ValidAudience = jwtOptions.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
-        };
-    });
+builder.Services.AddJwtAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
