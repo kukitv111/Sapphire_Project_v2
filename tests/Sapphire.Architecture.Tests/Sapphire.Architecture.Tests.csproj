@@ -15,10 +15,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Domain\Sapphire.Auth.Domain.csproj" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Application\Sapphire.Auth.Application.csproj" />
+    <ProjectReference Include="..\..\src\services\Auth\Sapphire.Auth.Domain\Sapphire.Auth.Domain.csproj" />
+    <ProjectReference Include="..\..\src\services\Billing\Sapphire.Billing.Application\Sapphire.Billing.Application.csproj" />
     <ProjectReference Include="..\..\src\services\Billing\Sapphire.Billing.Domain\Sapphire.Billing.Domain.csproj" />
+    <ProjectReference Include="..\..\src\services\Session\Sapphire.Session.Application\Sapphire.Session.Application.csproj" />
     <ProjectReference Include="..\..\src\services\Session\Sapphire.Session.Domain\Sapphire.Session.Domain.csproj" />
+    <ProjectReference Include="..\..\src\shared\Sapphire.Shared.Kernel\Sapphire.Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>
