@@ -1,8 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
-using Sapphire.Shared.Abstractions.Security;
+using Sapphire.Auth.Application.Interfaces.Security;
 
-namespace Sapphire.Shared.Security;
+namespace Sapphire.Auth.Infrastructure.Security;
 
 /// <summary>
 /// PBKDF2 implementation of IPasswordHasher.

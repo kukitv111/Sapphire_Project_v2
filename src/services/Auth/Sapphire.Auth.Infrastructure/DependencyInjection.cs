@@ -1,3 +1,4 @@
+using Sapphire.Auth.Application.Interfaces.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,9 +7,7 @@ using Sapphire.Auth.Domain.Repositories;
 using Sapphire.Auth.Infrastructure.Persistence;
 using Sapphire.Auth.Infrastructure.Persistence.Repositories;
 using Sapphire.Auth.Infrastructure.Security;
-using Sapphire.Shared.Abstractions.Security;
 using Sapphire.Shared.Messaging.Outbox;
-using Sapphire.Shared.Security;
 
 namespace Sapphire.Auth.Infrastructure;
 

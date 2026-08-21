@@ -6,7 +6,7 @@ using Sapphire.Auth.Application.Interfaces;
 using Sapphire.Auth.Domain.Aggregates;
 using Sapphire.Auth.Domain.Repositories;
 using Sapphire.Auth.Domain.ValueObjects;
-using Sapphire.Shared.Abstractions.Security;
+using Sapphire.Auth.Application.Interfaces.Security;
 using Sapphire.Shared.Kernel.Common;
 using Sapphire.Shared.Kernel.ValueObjects;
 

@@ -1,4 +1,4 @@
-namespace Sapphire.Shared.Abstractions.Security;
+namespace Sapphire.Auth.Application.Interfaces.Security;
 
 /// <summary>
 /// Interface for password hashing and verification.

@@ -2,7 +2,7 @@ using MediatR;
 using Sapphire.Auth.Domain.Exceptions;
 using Sapphire.Auth.Domain.Repositories;
 using Sapphire.Auth.Domain.ValueObjects;
-using Sapphire.Shared.Abstractions.Security;
+using Sapphire.Auth.Application.Interfaces.Security;
 using Sapphire.Shared.Kernel.Common;
 
 namespace Sapphire.Auth.Application.Commands.ChangePassword;

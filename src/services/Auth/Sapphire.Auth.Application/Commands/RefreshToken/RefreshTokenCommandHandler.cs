@@ -4,7 +4,7 @@ using Sapphire.Auth.Application.Commands.RefreshToken;
 using Sapphire.Auth.Application.DTOs;
 using Sapphire.Auth.Application.Interfaces;
 using Sapphire.Auth.Domain.Repositories;
-using Sapphire.Shared.Abstractions.Security;
+using Sapphire.Auth.Application.Interfaces.Security;
 using Sapphire.Shared.Kernel.Common;
 
 namespace Sapphire.Auth.Application.Commands.RefreshToken;
