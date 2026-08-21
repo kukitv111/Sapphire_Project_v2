@@ -18,6 +18,7 @@ public sealed class TokenService
     public TokenService(JwtOptions options)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
+        JwtOptionsValidator.Validate(options, "Development");
 
         if (options.UseRsa)
         {
@@ -94,19 +95,7 @@ public sealed class TokenService
     /// </summary>
     public TokenValidationParameters GetValidationParameters()
     {
-        SecurityKey signingKey = _rsaKey ?? (SecurityKey)_symmetricKey!;
-
-        return new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = _options.Issuer,
-            ValidAudience = _options.Audience,
-            IssuerSigningKey = signingKey,
-            ClockSkew = TimeSpan.FromSeconds(30)
-        };
+        return JwtAuthenticationExtensions.GetTokenValidationParameters(_options);
     }
 
     /// <summary>

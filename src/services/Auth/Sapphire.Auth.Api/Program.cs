@@ -11,12 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
-builder.Services.AddSingleton(_ =>
-{
-    var options = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
-    JwtOptionsValidator.Validate(options, builder.Environment.EnvironmentName);
-    return new TokenService(options!);
-});
 builder.Services.AddAuthApplication();
 builder.Services.AddAuthInfrastructure(builder.Configuration);
 

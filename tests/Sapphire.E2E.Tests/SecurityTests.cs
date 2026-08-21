@@ -151,17 +151,15 @@ public sealed class SecurityTests
             .AddJwtBearer(options =>
             {
                 options.MapInboundClaims = false;
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = JwtAuthenticationExtensions.GetTokenValidationParameters(new JwtOptions
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = "test",
-                    ValidAudience = "test",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(TestSecret)),
-                    ClockSkew = TimeSpan.Zero
-                };
+                    SecretKey = TestSecret,
+                    Issuer = "test",
+                    Audience = "test",
+                    AccessTokenExpirationMinutes = 15,
+                    RefreshTokenExpirationDays = 30,
+                    UseRsa = false
+                });
             });
         builder.Services.AddAuthorization(options =>
         {

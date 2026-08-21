@@ -39,9 +39,6 @@ public static class JwtOptionsValidator
         if (options.UseRsa)
             throw new NotSupportedException("RSA signing is not implemented yet. Use HMAC (UseRsa=false).");
 
-        if (options.UseRsa)
-            throw new NotSupportedException("RSA signing is not implemented yet. Use HMAC (UseRsa=false).");
-
         if (string.Equals(environmentName, "Production", StringComparison.OrdinalIgnoreCase)
             && KnownDevelopmentSecrets.Contains(options.SecretKey))
         {
