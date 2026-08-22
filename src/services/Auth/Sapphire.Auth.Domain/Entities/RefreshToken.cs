@@ -16,24 +16,26 @@ public sealed class RefreshToken : Entity
     public string? DeviceInfo { get; private set; }
     public string? IpAddress { get; private set; }
     public Guid? ReplacedByTokenId { get; private set; }
+    public Guid FamilyId { get; private set; }
 
     public bool IsRevoked => RevokedAt.HasValue;
     public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
     public bool IsActive => !IsRevoked && !IsExpired;
 
-    private RefreshToken(Guid userId, string tokenHash, DateTime expiresAt, string? deviceInfo, string? ipAddress) : base()
+    private RefreshToken(Guid userId, string tokenHash, DateTime expiresAt, string? deviceInfo, string? ipAddress, Guid? familyId = null) : base()
     {
         UserId = userId;
         TokenHash = tokenHash;
         ExpiresAt = expiresAt;
         DeviceInfo = deviceInfo;
         IpAddress = ipAddress;
+        FamilyId = familyId ?? Guid.NewGuid();
     }
 
     /// <summary>
     /// Creates a new refresh token.
     /// </summary>
-    public static RefreshToken Create(Guid userId, string tokenHash, DateTime expiresAt, string? deviceInfo = null, string? ipAddress = null)
+    public static RefreshToken Create(Guid userId, string tokenHash, DateTime expiresAt, string? deviceInfo = null, string? ipAddress = null, Guid? familyId = null)
     {
         if (userId == Guid.Empty)
             throw new ArgumentException("User ID cannot be empty", nameof(userId));
@@ -44,7 +46,7 @@ public sealed class RefreshToken : Entity
         if (expiresAt <= DateTime.UtcNow)
             throw new ArgumentException("Expiration date must be in the future", nameof(expiresAt));
 
-        return new RefreshToken(userId, tokenHash, expiresAt, deviceInfo, ipAddress);
+        return new RefreshToken(userId, tokenHash, expiresAt, deviceInfo, ipAddress, familyId);
     }
 
     /// <summary>

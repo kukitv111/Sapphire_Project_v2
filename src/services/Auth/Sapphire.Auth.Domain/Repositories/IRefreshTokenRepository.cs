@@ -17,6 +17,10 @@ public interface IRefreshTokenRepository
     /// </summary>
     Task<RefreshToken?> GetByTokenHashAsync(string tokenHash, CancellationToken cancellationToken = default);
 
+    Task<RefreshToken?> GetByTokenHashForUpdateAsync(string tokenHash, CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<RefreshToken>> GetByFamilyIdAsync(Guid familyId, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Gets all active refresh tokens for a user.
     /// </summary>
@@ -42,8 +46,11 @@ public interface IRefreshTokenRepository
     /// </summary>
     Task RevokeAllForUserAsync(Guid userId, string? reason = null, CancellationToken cancellationToken = default);
 
+    Task RevokeFamilyAsync(Guid familyId, string? reason = null, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Cleans up expired tokens.
     /// </summary>
     Task<int> CleanupExpiredTokensAsync(CancellationToken cancellationToken = default);
 }
+

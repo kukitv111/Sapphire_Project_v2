@@ -264,11 +264,11 @@ public sealed class User : AggregateRoot
     /// <summary>
     /// Creates a new refresh token for the user.
     /// </summary>
-    public RefreshToken CreateRefreshToken(string tokenHash, DateTime expiresAt, string? deviceInfo = null, string? ipAddress = null)
+    public RefreshToken CreateRefreshToken(string tokenHash, DateTime expiresAt, string? deviceInfo = null, string? ipAddress = null, Guid? familyId = null)
     {
         EnsureIsActive();
 
-        var refreshToken = RefreshToken.Create(Id, tokenHash, expiresAt, deviceInfo, ipAddress);
+        var refreshToken = RefreshToken.Create(Id, tokenHash, expiresAt, deviceInfo, ipAddress, familyId);
         _refreshTokens.Add(refreshToken);
 
         AddDomainEvent(new RefreshTokenCreatedEvent

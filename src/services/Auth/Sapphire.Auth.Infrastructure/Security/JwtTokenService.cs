@@ -34,16 +34,29 @@ public sealed class JwtTokenService : ITokenService
 
         // Create refresh token entity and attach to user
         var tokenHash = HashRefreshToken(refreshToken);
-        user.CreateRefreshToken(tokenHash, expiresAt, deviceInfo, ipAddress);
+        var refreshTokenEntity = user.CreateRefreshToken(tokenHash, expiresAt, deviceInfo, ipAddress);
 
         var tokenDto = new TokenDto
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
+            RefreshTokenId = refreshTokenEntity.Id,
             ExpiresAt = expiresAt
         };
 
         return Task.FromResult(tokenDto);
+    }
+
+    public string GenerateAccessToken(User user)
+    {
+        var roles = user.Roles.Select(r => r.RoleId.ToString());
+        var permissions = new List<string>();
+        return _tokenService.GenerateAccessToken(user.Id, user.Email.Value, roles, permissions);
+    }
+
+    public (string Token, DateTime ExpiresAt) GenerateRefreshToken()
+    {
+        return _tokenService.GenerateRefreshToken();
     }
 
     public string HashRefreshToken(string refreshToken)
@@ -57,3 +70,4 @@ public sealed class JwtTokenService : ITokenService
         return _tokenService.GetUserIdFromToken(accessToken);
     }
 }
+

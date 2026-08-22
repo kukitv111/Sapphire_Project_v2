@@ -15,6 +15,16 @@ public interface ITokenService
     Task<TokenDto> GenerateTokensAsync(User user, string? deviceInfo = null, string? ipAddress = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Generates an access token without creating a refresh token.
+    /// </summary>
+    string GenerateAccessToken(User user);
+
+    /// <summary>
+    /// Generates an opaque refresh token without persisting it.
+    /// </summary>
+    (string Token, DateTime ExpiresAt) GenerateRefreshToken();
+
+    /// <summary>
     /// Hashes a refresh token for secure storage.
     /// </summary>
     string HashRefreshToken(string refreshToken);
@@ -24,3 +34,5 @@ public interface ITokenService
     /// </summary>
     Guid? GetUserIdFromToken(string accessToken);
 }
+
+
