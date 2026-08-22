@@ -17,7 +17,7 @@ public static class JwtAuthenticationExtensions
         
         JwtOptionsValidator.Validate(jwtOptions, environment.EnvironmentName);
         services.Configure<JwtOptions>(jwtSection);
-        services.AddSingleton(_ => new TokenService(jwtOptions!));
+        services.AddSingleton(_ => new TokenService(jwtOptions!, environment.EnvironmentName));
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

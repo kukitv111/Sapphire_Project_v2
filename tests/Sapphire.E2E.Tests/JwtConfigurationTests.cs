@@ -27,7 +27,7 @@ public sealed class JwtConfigurationTests
     [InlineData(" ")]
     public void EmptySecret_IsRejected(string secret)
     {
-        var options = ValidOptions() with { SecretKey = secret };
+        var options = ValidOptions(secretKey: secret);
         var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT SecretKey is missing or empty");
     }
@@ -35,7 +35,7 @@ public sealed class JwtConfigurationTests
     [Fact]
     public void TooShortSecret_IsRejected()
     {
-        var options = ValidOptions() with { SecretKey = "short" };
+        var options = ValidOptions(secretKey: "short");
         var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT SecretKey must be at least 32 characters long for HMAC signing");
     }
@@ -45,7 +45,7 @@ public sealed class JwtConfigurationTests
     [InlineData(" ")]
     public void MissingIssuer_IsRejected(string issuer)
     {
-        var options = ValidOptions() with { Issuer = issuer };
+        var options = ValidOptions(issuer: issuer);
         var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT Issuer is missing or empty");
     }
@@ -55,7 +55,7 @@ public sealed class JwtConfigurationTests
     [InlineData(" ")]
     public void MissingAudience_IsRejected(string audience)
     {
-        var options = ValidOptions() with { Audience = audience };
+        var options = ValidOptions(audience: audience);
         var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT Audience is missing or empty");
     }
@@ -65,7 +65,7 @@ public sealed class JwtConfigurationTests
     [InlineData(-1)]
     public void InvalidAccessExpiration_IsRejected(int minutes)
     {
-        var options = ValidOptions() with { AccessTokenExpirationMinutes = minutes };
+        var options = ValidOptions(accessTokenExpirationMinutes: minutes);
         var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT AccessTokenExpirationMinutes must be greater than zero");
     }
@@ -75,7 +75,7 @@ public sealed class JwtConfigurationTests
     [InlineData(-1)]
     public void InvalidRefreshExpiration_IsRejected(int days)
     {
-        var options = ValidOptions() with { RefreshTokenExpirationDays = days };
+        var options = ValidOptions(refreshTokenExpirationDays: days);
         var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT RefreshTokenExpirationDays must be greater than zero");
     }
@@ -83,19 +83,26 @@ public sealed class JwtConfigurationTests
     [Fact]
     public void KnownDevelopmentSecret_InProduction_IsRejected()
     {
-        var options = ValidOptions() with
-        {
-            SecretKey = "sapphire-dev-secret-key-change-me-in-production-32chars-min"
-        };
+        var options = ValidOptions(secretKey: "sapphire-dev-secret-key-change-me-in-production-32chars-min");
 
         var act = () => JwtOptionsValidator.Validate(options, "Production");
         act.Should().Throw<InvalidOperationException>().WithMessage("JWT secret key uses a known development/default value in Production environment");
     }
 
     [Fact]
+    public void TokenService_UsesActualProductionEnvironmentForValidation()
+    {
+        var options = ValidOptions(secretKey: "sapphire-dev-secret-key-change-me-in-production-32chars-min");
+
+        var act = () => new TokenService(options, "Production");
+
+        act.Should().Throw<InvalidOperationException>().WithMessage("JWT secret key uses a known development/default value in Production environment");
+    }
+
+    [Fact]
     public void UseRsaTrue_IsRejectedExplicitly()
     {
-        var options = ValidOptions() with { UseRsa = true };
+        var options = ValidOptions(useRsa: true);
         var act = () => JwtOptionsValidator.Validate(options, "Development");
         act.Should().Throw<NotSupportedException>().WithMessage("RSA signing is not implemented yet. Use HMAC (UseRsa=false).");
     }
@@ -103,8 +110,8 @@ public sealed class JwtConfigurationTests
     [Fact]
     public void TokenService_RejectsUnsupportedRsaConfiguration()
     {
-        var options = ValidOptions() with { UseRsa = true };
-        var act = () => new TokenService(options);
+        var options = ValidOptions(useRsa: true);
+        var act = () => new TokenService(options, "Development");
         act.Should().Throw<NotSupportedException>().WithMessage("RSA signing is not implemented yet. Use HMAC (UseRsa=false).");
     }
 
@@ -119,7 +126,7 @@ public sealed class JwtConfigurationTests
     public void HmacTokenGeneratedByAuthOptions_IsAcceptedBySharedValidation()
     {
         var options = ValidOptions();
-        var token = new TokenService(options).GenerateAccessToken(Guid.NewGuid(), "user@test.local", ["User"], ["sessions.start"]);
+        var token = new TokenService(options, "Development").GenerateAccessToken(Guid.NewGuid(), "user@test.local", ["User"], ["sessions.start"]);
 
         var principal = Validate(token, options, out _);
 
@@ -133,7 +140,7 @@ public sealed class JwtConfigurationTests
         var authOptions = ValidOptions();
         var billingOptions = ValidOptions();
         var sessionOptions = ValidOptions();
-        var token = new TokenService(authOptions).GenerateAccessToken(Guid.NewGuid(), "user@test.local", ["Admin"], []);
+        var token = new TokenService(authOptions, "Development").GenerateAccessToken(Guid.NewGuid(), "user@test.local", ["Admin"], []);
 
         Validate(token, billingOptions, out _).Identity!.IsAuthenticated.Should().BeTrue();
         Validate(token, sessionOptions, out _).Identity!.IsAuthenticated.Should().BeTrue();
@@ -142,7 +149,7 @@ public sealed class JwtConfigurationTests
     [Fact]
     public void IssuerMismatch_IsRejected()
     {
-        var token = BuildToken(ValidOptions() with { Issuer = "wrong-issuer" });
+        var token = BuildToken(ValidOptions(issuer: "wrong-issuer"));
 
         var act = () => Validate(token, ValidOptions(), out _);
 
@@ -152,7 +159,7 @@ public sealed class JwtConfigurationTests
     [Fact]
     public void AudienceMismatch_IsRejected()
     {
-        var token = BuildToken(ValidOptions() with { Audience = "wrong-audience" });
+        var token = BuildToken(ValidOptions(audience: "wrong-audience"));
 
         var act = () => Validate(token, ValidOptions(), out _);
 
@@ -172,7 +179,7 @@ public sealed class JwtConfigurationTests
     [Fact]
     public void InvalidSigningKey_IsRejected()
     {
-        var token = BuildToken(ValidOptions() with { SecretKey = OtherSecret });
+        var token = BuildToken(ValidOptions(secretKey: OtherSecret));
 
         var act = () => Validate(token, ValidOptions(), out _);
 
@@ -185,7 +192,7 @@ public sealed class JwtConfigurationTests
         var parameters = JwtAuthenticationExtensions.GetTokenValidationParameters(ValidOptions());
         parameters.ClockSkew.Should().Be(TimeSpan.Zero);
 
-        var service = new TokenService(ValidOptions());
+        var service = new TokenService(ValidOptions(), "Development");
         service.GetValidationParameters().ClockSkew.Should().Be(TimeSpan.Zero);
     }
 
@@ -218,13 +225,20 @@ public sealed class JwtConfigurationTests
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    private static JwtOptions ValidOptions() => new()
+    private static JwtOptions ValidOptions(
+        string secretKey = Secret,
+        string issuer = Issuer,
+        string audience = Audience,
+        int accessTokenExpirationMinutes = 15,
+        int refreshTokenExpirationDays = 30,
+        bool useRsa = false) => new()
     {
-        SecretKey = Secret,
-        Issuer = Issuer,
-        Audience = Audience,
-        AccessTokenExpirationMinutes = 15,
-        RefreshTokenExpirationDays = 30,
-        UseRsa = false
+        SecretKey = secretKey,
+        Issuer = issuer,
+        Audience = audience,
+        AccessTokenExpirationMinutes = accessTokenExpirationMinutes,
+        RefreshTokenExpirationDays = refreshTokenExpirationDays,
+        UseRsa = useRsa
     };
 }
+

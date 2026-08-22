@@ -1,7 +1,3 @@
-using System;
-using System.Security.Cryptography;
-using System.Text.Json.Serialization;
-
 namespace Sapphire.Shared.Security.Jwt;
 
 /// <summary>
@@ -37,43 +33,15 @@ public sealed class JwtOptions
     public int RefreshTokenExpirationDays { get; set; } = 30;
 
     /// <summary>
-    /// Whether to use RSA signing instead of HMAC.
+    /// RSA signing is reserved for a future implementation and is rejected by the current HMAC-only MVP policy.
     /// </summary>
     public bool UseRsa { get; set; } = false;
 
-    /// <summary>
-    /// RSA private key PEM (if UseRsa is true).
-    /// </summary>
+    /// <summary>Reserved for a future RSA implementation; not used by the current policy.</summary>
     public string? RsaPrivateKeyPem { get; set; } = null;
 
-    /// <summary>
-    /// RSA public key PEM (if UseRsa is true).
-    /// </summary>
+    /// <summary>Reserved for a future RSA implementation; not used by the current policy.</summary>
     public string? RsaPublicKeyPem { get; set; } = null;
 
-    /// <summary>
-    /// Gets RSA parameters from PEM-encoded private key.
-    /// </summary>
-    public RSAParameters? GetRsaParameters()
-    {
-        if (!UseRsa || string.IsNullOrEmpty(RsaPrivateKeyPem))
-            return null;
-
-        var rsa = RSA.Create();
-        rsa.ImportFromPem(RsaPrivateKeyPem);
-        return rsa.ExportParameters(true);
-    }
-
-    /// <summary>
-    /// Gets RSA public key parameters.
-    /// </summary>
-    public RSAParameters? GetRsaPublicKeyParameters()
-    {
-        if (!UseRsa || string.IsNullOrEmpty(RsaPublicKeyPem))
-            return null;
-
-        var rsa = RSA.Create();
-        rsa.ImportFromPem(RsaPublicKeyPem);
-        return rsa.ExportParameters(false);
-    }
 }
+

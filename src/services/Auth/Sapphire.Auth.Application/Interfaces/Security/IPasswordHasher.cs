@@ -2,8 +2,8 @@ namespace Sapphire.Auth.Application.Interfaces.Security;
 
 /// <summary>
 /// Interface for password hashing and verification.
-/// Defined in Abstractions so Application layer can depend on it without Infrastructure.
-/// Implementation lives in Shared.Security (Infrastructure layer).
+/// Defined in Auth Application so handlers can depend on an application port without Infrastructure.
+/// Implementation lives in Auth Infrastructure.
 /// </summary>
 public interface IPasswordHasher
 {

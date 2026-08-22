@@ -12,30 +12,13 @@ namespace Sapphire.Shared.Security.Jwt;
 public sealed class TokenService
 {
     private readonly JwtOptions _options;
-    private readonly SymmetricSecurityKey? _symmetricKey;
-    private readonly RsaSecurityKey? _rsaKey;
+    private readonly SymmetricSecurityKey _symmetricKey;
 
-    public TokenService(JwtOptions options)
+    public TokenService(JwtOptions options, string environmentName)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
-        JwtOptionsValidator.Validate(options, "Development");
-
-        if (options.UseRsa)
-        {
-            var rsa = RSA.Create();
-            if (!string.IsNullOrEmpty(options.RsaPrivateKeyPem))
-            {
-                rsa.ImportFromPem(options.RsaPrivateKeyPem);
-            }
-            _rsaKey = new RsaSecurityKey(rsa);
-        }
-        else
-        {
-            if (string.IsNullOrEmpty(options.SecretKey) || options.SecretKey.Length < 32)
-                throw new ArgumentException("SecretKey must be at least 32 characters", nameof(options));
-
-            _symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey));
-        }
+        JwtOptionsValidator.Validate(options, environmentName);
+        _symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey));
     }
 
     /// <summary>
@@ -64,9 +47,7 @@ public sealed class TokenService
             claims.Add(new Claim("permission", permission));
         }
 
-        var signingCredentials = _rsaKey != null
-            ? new SigningCredentials(_rsaKey, SecurityAlgorithms.RsaSha256)
-            : new SigningCredentials(_symmetricKey!, SecurityAlgorithms.HmacSha256);
+        var signingCredentials = new SigningCredentials(_symmetricKey, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
             issuer: _options.Issuer,
