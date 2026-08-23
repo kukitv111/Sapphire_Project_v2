@@ -97,6 +97,7 @@ public sealed class UserRepository : IUserRepository
     public async Task<IReadOnlyList<User>> GetActiveUsersAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Users
+            .Include(u => u.Roles)
             .Where(u => u.Status == Domain.Enums.UserStatus.Active)
             .ToListAsync(cancellationToken);
     }

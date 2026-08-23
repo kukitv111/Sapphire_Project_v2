@@ -18,6 +18,7 @@ public static class DependencyInjection
 
         // Repositories
         services.AddScoped<IComputerRepository, ComputerRepository>();
+        services.AddScoped<ISessionRepository, SessionRepository>();
         services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

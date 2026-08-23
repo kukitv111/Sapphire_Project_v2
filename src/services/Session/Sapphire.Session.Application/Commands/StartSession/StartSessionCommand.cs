@@ -12,11 +12,13 @@ public record StartSessionCommand(Guid ComputerId, Guid UserId, DateTime StartTi
 public sealed class StartSessionCommandHandler : IRequestHandler<StartSessionCommand, Result<SessionDto>>
 {
     private readonly IComputerRepository _computerRepository;
+    private readonly ISessionRepository _sessionRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public StartSessionCommandHandler(IComputerRepository computerRepository, IUnitOfWork unitOfWork)
+    public StartSessionCommandHandler(IComputerRepository computerRepository, ISessionRepository sessionRepository, IUnitOfWork unitOfWork)
     {
         _computerRepository = computerRepository;
+        _sessionRepository = sessionRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -36,13 +38,16 @@ public sealed class StartSessionCommandHandler : IRequestHandler<StartSessionCom
 
         // 3. Start session
         var session = new SessionAggregate(request.ComputerId, request.UserId, timeSlotResult.Value);
-        computer.StartSession(session.Id);
+        var startResult = computer.StartSession(session.Id);
+        if (startResult.IsFailure)
+            return Result.Failure<SessionDto>(startResult.Error);
 
-        // 4. Save changes
+        // 4. Persist session and computer state
+        await _sessionRepository.AddAsync(session, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // 5. Map to DTO
         return Result.Success(new SessionDto(
-            session.Id, session.ComputerId, session.UserId, session.TimeSlot.Start, session.TimeSlot.End));
+            session.Id, session.ComputerId, session.UserId, session.TimeSlot.Start, session.TimeSlot.End, session.Status.ToString()));
     }
 }

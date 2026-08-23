@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
-import api from '../api/axiosConfig';
+import { billingApi } from '../api/axiosConfig';
 
-export interface Tariff { id: string; name: string; price: number; type: string; }
+export interface Tariff {
+  id: string;
+  name: string;
+  type: string;
+  pricePerMinuteCents: number;
+  pricePerHourCents: number;
+  isActive: boolean;
+}
 
 export const TariffsPage = () => {
   const [tariffs, setTariffs] = useState<Tariff[]>([]);
 
   useEffect(() => {
-    api.get('/billing/tariffs').then((res: any) => {
+    billingApi.get('/billing/tariffs').then((res) => {
       const data = res.data;
-      // Handle Result<T> wrapper
       if (data?.isSuccess) {
         setTariffs(data.value || []);
       }
@@ -23,7 +29,7 @@ export const TariffsPage = () => {
         {tariffs.map(t => (
           <div key={t.id} className="p-4 bg-white shadow rounded">
             <h3 className="font-bold">{t.name}</h3>
-            <p>{t.price} центов</p>
+            <p>{t.pricePerHourCents} центов/час</p>
           </div>
         ))}
       </div>

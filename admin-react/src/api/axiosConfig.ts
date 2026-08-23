@@ -1,18 +1,27 @@
 import axios from 'axios';
+import { API_CONFIG } from './config';
 
-const api = axios.create({
-  baseURL: 'http://localhost:5166/api', // Auth API port
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const createClient = (baseURL: string) => {
+  const client = axios.create({
+    baseURL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
-api.interceptors.request.use((config: any) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+  client.interceptors.request.use((config) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
 
-export default api;
+  return client;
+};
+
+export const authApi = createClient(`${API_CONFIG.authApiUrl}/api`);
+export const billingApi = createClient(`${API_CONFIG.billingApiUrl}/api`);
+export const sessionApi = createClient(`${API_CONFIG.sessionApiUrl}/api`);
+
+export default authApi;

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Sapphire.Billing.Application.Commands.ApplyPromocode;
 using Sapphire.Billing.Application.Commands.CreateTariff;
 using Sapphire.Billing.Application.DTOs;
+using Sapphire.Billing.Application.Queries.GetTariffs;
+using Sapphire.Billing.Application.Queries.GetWallet;
 using Sapphire.Shared.Kernel.Common;
 
 namespace Sapphire.Billing.Api.Controllers;
@@ -30,4 +32,12 @@ public class BillingController : ControllerBase
         command.WalletId = walletId;
         return await _mediator.Send(command);
     }
+
+    [HttpGet("tariffs")]
+    public async Task<Result<IReadOnlyList<TariffDto>>> GetTariffs()
+        => await _mediator.Send(new GetTariffsQuery());
+
+    [HttpGet("users/{userId:guid}/wallet")]
+    public async Task<Result<WalletDto>> GetWallet(Guid userId)
+        => await _mediator.Send(new GetWalletQuery(userId));
 }

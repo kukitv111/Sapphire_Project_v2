@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sapphire.Session.Application.Commands.StartSession;
 using Sapphire.Session.Application.DTOs;
+using Sapphire.Session.Application.Queries.GetSessions;
 using Sapphire.Shared.Kernel.Common;
 
 namespace Sapphire.Session.Api.Controllers;
@@ -30,6 +31,11 @@ public class SessionController : ControllerBase
         var authenticatedCommand = command with { UserId = currentUserId.Value };
         return await _mediator.Send(authenticatedCommand);
     }
+
+    [HttpGet]
+    public async Task<Result<IReadOnlyList<SessionDto>>> GetSessions([FromQuery] int limit = 50)
+        => await _mediator.Send(new GetSessionsQuery(limit));
+}
 
     private Guid? ResolveCurrentUserId()
     {

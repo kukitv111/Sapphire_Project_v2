@@ -37,4 +37,9 @@ public class AuthController : ControllerBase
     [Authorize]
     public async Task<Result> ChangePassword(ChangePasswordCommand command)
         => await _mediator.Send(command);
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<Result<UserDto>> GetCurrentUser()
+        => await _mediator.Send(new GetCurrentUserQuery());
 }

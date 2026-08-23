@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from '../api/axiosConfig';
+import { authApi } from '../api/axiosConfig';
 
 interface User { id: string; username: string; email: string; status: string; }
 
@@ -7,7 +7,7 @@ export const UsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    api.get('/users').then((res: any) => {
+    authApi.get('/users').then((res) => {
       if (res.data?.isSuccess) setUsers(res.data.value || []);
     });
   }, []);

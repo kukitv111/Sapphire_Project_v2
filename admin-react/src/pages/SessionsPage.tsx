@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
-import api from '../api/axiosConfig';
+import { sessionApi } from '../api/axiosConfig';
 
-export interface Session { id: string; userId: string; computerId: string; status: string; }
+export interface Session {
+  id: string;
+  userId: string;
+  computerId: string;
+  startTime: string;
+  endTime?: string | null;
+  status: string;
+}
 
 export const SessionsPage = () => {
   const [sessions, setSessions] = useState<Session[]>([]);
 
   useEffect(() => {
-    api.get('/sessions').then((res: any) => {
+    sessionApi.get('/sessions').then((res) => {
       const data = res.data;
-      // Handle Result<T> wrapper
       if (data?.isSuccess) {
         setSessions(data.value || []);
       }
