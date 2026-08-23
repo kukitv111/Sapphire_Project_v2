@@ -34,17 +34,16 @@ public sealed class TokenService
             new(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         };
 
-        // Add roles as claims
+        // Add roles as claims (canonical short claim type)
         foreach (var role in roles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-            claims.Add(new Claim("role", role));
+            claims.Add(new Claim(SapphireClaims.Role, role));
         }
 
         // Add permissions as claims
         foreach (var permission in permissions)
         {
-            claims.Add(new Claim("permission", permission));
+            claims.Add(new Claim(SapphireClaims.Permission, permission));
         }
 
         var signingCredentials = new SigningCredentials(_symmetricKey, SecurityAlgorithms.HmacSha256);
