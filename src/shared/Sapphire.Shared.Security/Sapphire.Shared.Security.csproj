@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sapphire.Shared.Abstractions\Sapphire.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\Sapphire.Shared.Kernel\Sapphire.Shared.Kernel.csproj" />
   </ItemGroup>
 
 </Project>
