@@ -6,6 +6,7 @@ using Sapphire.Auth.Application.Commands.Login;
 using Sapphire.Auth.Application.Commands.Register;
 using Sapphire.Auth.Application.Commands.RefreshToken;
 using Sapphire.Auth.Application.DTOs;
+using Sapphire.Auth.Application.Queries.GetCurrentUser;
 using Sapphire.Shared.Kernel.Common;
 
 namespace Sapphire.Auth.Api.Controllers;

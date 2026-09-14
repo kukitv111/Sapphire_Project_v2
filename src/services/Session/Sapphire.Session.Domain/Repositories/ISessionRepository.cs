@@ -1,5 +1,5 @@
-using Sapphire.Session.Domain.Aggregates;
 using Sapphire.Shared.Kernel.Common;
+using SessionAggregate = Sapphire.Session.Domain.Aggregates.Session;
 
 namespace Sapphire.Session.Domain.Repositories;
 
@@ -9,11 +9,11 @@ namespace Sapphire.Session.Domain.Repositories;
 public interface ISessionRepository
 {
     /// <summary>Finds a session by id.</summary>
-    Task<Result<Session>> GetByIdAsync(Guid sessionId, CancellationToken cancellationToken = default);
+    Task<Result<SessionAggregate>> GetByIdAsync(Guid sessionId, CancellationToken cancellationToken = default);
 
     /// <summary>Returns sessions ordered by start time descending, limited for admin listing.</summary>
-    Task<IReadOnlyList<Session>> GetRecentAsync(int limit, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<SessionAggregate>> GetRecentAsync(int limit, CancellationToken cancellationToken = default);
 
     /// <summary>Adds a new session.</summary>
-    Task AddAsync(Session session, CancellationToken cancellationToken = default);
+    Task AddAsync(SessionAggregate session, CancellationToken cancellationToken = default);
 }

@@ -35,7 +35,6 @@ public class SessionController : ControllerBase
     [HttpGet]
     public async Task<Result<IReadOnlyList<SessionDto>>> GetSessions([FromQuery] int limit = 50)
         => await _mediator.Send(new GetSessionsQuery(limit));
-}
 
     private Guid? ResolveCurrentUserId()
     {

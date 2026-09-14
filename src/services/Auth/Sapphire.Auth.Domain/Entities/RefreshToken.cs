@@ -9,7 +9,7 @@ namespace Sapphire.Auth.Domain.Entities;
 public sealed class RefreshToken : Entity
 {
     public Guid UserId { get; private set; }
-    public string TokenHash { get; private set; }
+    public string TokenHash { get; private set; } = string.Empty;
     public DateTime ExpiresAt { get; private set; }
     public DateTime? RevokedAt { get; private set; }
     public string? RevokedReason { get; private set; }
@@ -21,6 +21,8 @@ public sealed class RefreshToken : Entity
     public bool IsRevoked => RevokedAt.HasValue;
     public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
     public bool IsActive => !IsRevoked && !IsExpired;
+
+    private RefreshToken() { }
 
     private RefreshToken(Guid userId, string tokenHash, DateTime expiresAt, string? deviceInfo, string? ipAddress, Guid? familyId = null) : base()
     {

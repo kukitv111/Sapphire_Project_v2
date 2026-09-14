@@ -6,9 +6,14 @@ namespace Sapphire.Auth.Domain.Entities;
 /// </summary>
 public sealed record UserRole
 {
-    public Guid RoleId { get; }
-    public Guid AssignedBy { get; }
-    public DateTime AssignedAt { get; init; }
+    public Guid RoleId { get; private init; }
+    public Guid AssignedBy { get; private init; }
+    public DateTime AssignedAt { get; private init; }
+
+    private UserRole()
+    {
+        // For EF Core
+    }
 
     private UserRole(Guid roleId, Guid assignedBy)
     {

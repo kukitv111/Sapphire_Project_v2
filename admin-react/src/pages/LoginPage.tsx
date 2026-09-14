@@ -12,7 +12,7 @@ export const LoginPage = () => {
     try {
       await authService.login({ login, password });
       navigate('/dashboard');
-    } catch (err) {
+    } catch {
       alert('Ошибка входа');
     }
   };

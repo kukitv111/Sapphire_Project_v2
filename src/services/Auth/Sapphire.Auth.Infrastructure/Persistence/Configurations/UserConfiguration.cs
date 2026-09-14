@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sapphire.Auth.Domain.Aggregates;
+using Sapphire.Auth.Domain.Entities;
 using Sapphire.Auth.Infrastructure.Persistence.Converters;
 
 namespace Sapphire.Auth.Infrastructure.Persistence.Configurations;
@@ -69,7 +70,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             r.Property(x => x.RoleId).HasColumnName("role_id");
             r.Property(x => x.AssignedBy).HasColumnName("assigned_by");
             r.Property(x => x.AssignedAt).HasColumnName("assigned_at");
-            r.HasKey("user_id", "role_id");
+            r.HasKey("user_id", nameof(UserRole.RoleId));
         });
         builder.Navigation(u => u.Roles).UsePropertyAccessMode(PropertyAccessMode.Field);
 
