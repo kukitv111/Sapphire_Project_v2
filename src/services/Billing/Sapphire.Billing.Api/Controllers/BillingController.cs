@@ -7,6 +7,7 @@ using Sapphire.Billing.Application.DTOs;
 using Sapphire.Billing.Application.Queries.GetTariffs;
 using Sapphire.Billing.Application.Queries.GetWallet;
 using Sapphire.Shared.Kernel.Common;
+using Sapphire.Shared.Security;
 
 namespace Sapphire.Billing.Api.Controllers;
 
@@ -23,10 +24,12 @@ public class BillingController : ControllerBase
     }
 
     [HttpPost("tariffs")]
+    [Authorize(Policy = PolicyNames.AdminOnly)]
     public async Task<Result<TariffDto>> CreateTariff(CreateTariffCommand command)
         => await _mediator.Send(command);
 
     [HttpPost("wallets/{walletId}/promocodes")]
+    [Authorize(Policy = PolicyNames.CashierOrAdmin)]
     public async Task<Result<WalletDto>> ApplyPromocode(Guid walletId, ApplyPromocodeCommand command)
     {
         command.WalletId = walletId;
@@ -39,5 +42,12 @@ public class BillingController : ControllerBase
 
     [HttpGet("users/{userId:guid}/wallet")]
     public async Task<Result<WalletDto>> GetWallet(Guid userId)
-        => await _mediator.Send(new GetWalletQuery(userId));
+    {
+        var subject = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+            ?? User.FindFirst("sub")?.Value;
+        var staff = User.IsInRole("Cashier") || User.IsInRole("Admin") || User.IsInRole("Owner");
+        if (!staff && (!Guid.TryParse(subject, out var callerId) || callerId != userId))
+            return Result.Failure<WalletDto>(Error.Forbidden("Cannot access another user wallet"));
+        return await _mediator.Send(new GetWalletQuery(userId));
+    }
 }

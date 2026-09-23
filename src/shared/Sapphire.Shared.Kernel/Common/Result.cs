@@ -37,9 +37,11 @@ public class Result<TValue> : Result
 {
     private readonly TValue? _value;
 
-    public TValue Value => IsSuccess 
-        ? _value! 
-        : throw new InvalidOperationException("Cannot access value of a failed result");
+    /// <summary>
+    /// The result value. It is null for a failed result so serialization can safely
+    /// produce the failure envelope without throwing from a property getter.
+    /// </summary>
+    public TValue? Value => _value;
 
     protected internal Result(TValue? value, bool isSuccess, Error error) 
         : base(isSuccess, error)

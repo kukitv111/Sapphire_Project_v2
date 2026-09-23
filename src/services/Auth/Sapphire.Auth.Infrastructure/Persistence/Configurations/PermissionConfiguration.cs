@@ -24,6 +24,7 @@ public sealed class PermissionConfiguration : IEntityTypeConfiguration<Permissio
         builder.Property(p => p.UpdatedAt).HasColumnName("updated_at");
 
         builder.Ignore(p => p.DomainEvents);
+        builder.Ignore(p => p.RolePermissions);
 
         builder.HasIndex(p => p.Code).IsUnique();
     }

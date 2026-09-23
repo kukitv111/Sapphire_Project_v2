@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sapphire.Billing.Application.Commands.AssignTariffToUser;
 using Sapphire.Billing.Application.DTOs;
 using Sapphire.Shared.Kernel.Common;
+using Sapphire.Shared.Security;
 
 namespace Sapphire.Billing.Api.Controllers;
 
@@ -20,6 +21,7 @@ public class UserTariffController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = PolicyNames.CashierOrAdmin)]
     public async Task<Result<WalletDto>> AssignTariff(Guid userId, AssignTariffToUserCommand command)
     {
         command.UserId = userId;

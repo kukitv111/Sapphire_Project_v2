@@ -19,22 +19,40 @@ public sealed class AuthContractTests : IClassFixture<AuthApiFixture>
     [Fact]
     public async Task Register_then_login_returns_result_envelope()
     {
-        var username = $"user_{Guid.NewGuid():N}";
+        var username = $"user_{Guid.NewGuid():N}"[..20];
         var register = await Client().PostAsJsonAsync("/api/auth/register", new
         {
             username,
             email = $"{username}@test.com",
             password = "Password123!"
         });
-        register.StatusCode.Should().Be(HttpStatusCode.OK);
-        var body = await register.Content.ReadFromJsonAsync<JsonElement>(Json);
-        body.GetProperty("isSuccess").GetBoolean().Should().BeTrue();
+        var registerContent = await register.Content.ReadAsStringAsync();
+        register.StatusCode.Should().Be(HttpStatusCode.OK, registerContent);
+        var body = JsonDocument.Parse(registerContent).RootElement;
+        body.GetProperty("isSuccess").GetBoolean().Should().BeTrue(registerContent);
 
         var login = await Client().PostAsJsonAsync("/api/auth/login", new { login = username, password = "Password123!" });
         login.StatusCode.Should().Be(HttpStatusCode.OK);
         var loginBody = await login.Content.ReadFromJsonAsync<JsonElement>(Json);
         loginBody.GetProperty("isSuccess").GetBoolean().Should().BeTrue();
         loginBody.GetProperty("value").GetProperty("tokens").GetProperty("accessToken").GetString().Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task Register_queues_domain_events_in_outbox()
+    {
+        var username = $"outbox_{Guid.NewGuid():N}"[..22];
+        var messagesBefore = await _factory.GetOutboxMessageCountAsync();
+
+        var register = await Client().PostAsJsonAsync("/api/auth/register", new
+        {
+            username,
+            email = $"{username}@test.com",
+            password = "Password123!"
+        });
+
+        register.StatusCode.Should().Be(HttpStatusCode.OK);
+        (await _factory.GetOutboxMessageCountAsync()).Should().BeGreaterThan(messagesBefore);
     }
 
     [Fact]
@@ -57,7 +75,7 @@ public sealed class AuthContractTests : IClassFixture<AuthApiFixture>
     [Fact]
     public async Task Users_endpoint_returns_registered_user_for_admin()
     {
-        var username = $"admin_{Guid.NewGuid():N}";
+        var username = $"admin_{Guid.NewGuid():N}"[..21];
         var register = await Client().PostAsJsonAsync("/api/auth/register", new
         {
             username,
@@ -83,7 +101,7 @@ public sealed class AuthContractTests : IClassFixture<AuthApiFixture>
     [Fact]
     public async Task Me_endpoint_returns_current_user()
     {
-        var username = $"me_{Guid.NewGuid():N}";
+        var username = $"me_{Guid.NewGuid():N}"[..18];
         var register = await Client().PostAsJsonAsync("/api/auth/register", new
         {
             username,

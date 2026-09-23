@@ -20,6 +20,11 @@ public sealed class BillingDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(BillingDbContext).Assembly);
 
+        modelBuilder.Entity<Wallet>().Ignore(w => w.DomainEvents);
+        modelBuilder.Entity<Tariff>().Ignore(t => t.DomainEvents);
+        modelBuilder.Entity<Promocode>().Ignore(p => p.DomainEvents);
+        modelBuilder.Entity<Wallet>().HasIndex(w => w.UserId).IsUnique();
+        modelBuilder.Entity<Promocode>().HasIndex(p => p.NormalizedCode).IsUnique();
         base.OnModelCreating(modelBuilder);
     }
 }

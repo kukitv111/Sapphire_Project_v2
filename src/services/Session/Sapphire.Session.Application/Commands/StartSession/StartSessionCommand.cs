@@ -30,14 +30,20 @@ public sealed class StartSessionCommandHandler : IRequestHandler<StartSessionCom
             return Result.Failure<SessionDto>(computerResult.Error);
 
         var computer = computerResult.Value;
+        if (computer is null)
+            return Result.Failure<SessionDto>(Error.NotFound("Computer not found"));
 
         // 2. Create time slot
         var timeSlotResult = SessionTimeSlot.Create(request.StartTime, request.EndTime);
         if (timeSlotResult.IsFailure)
             return Result.Failure<SessionDto>(timeSlotResult.Error);
 
+        var timeSlot = timeSlotResult.Value;
+        if (timeSlot is null)
+            return Result.Failure<SessionDto>(Error.Create("INVALID_TIME_SLOT", "Time slot is required"));
+
         // 3. Start session
-        var session = new SessionAggregate(request.ComputerId, request.UserId, timeSlotResult.Value);
+        var session = new SessionAggregate(request.ComputerId, request.UserId, timeSlot);
         var startResult = computer.StartSession(session.Id);
         if (startResult.IsFailure)
             return Result.Failure<SessionDto>(startResult.Error);

@@ -19,21 +19,23 @@ public sealed class UnitOfWork : IUnitOfWork
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Collect domain events from all aggregates
-        var domainEvents = _context.ChangeTracker.Entries<AggregateRoot>()
-            .SelectMany(e => e.Entity.DomainEvents)
-            .ToList();
-
-        // Convert to OutboxMessage and add to the context
-        var outboxMessages = domainEvents.Select(OutboxMessage.Create);
-        await _context.OutboxMessages.AddRangeAsync(outboxMessages, cancellationToken);
-
-        // Clear events after queuing
-        foreach (var entry in _context.ChangeTracker.Entries<AggregateRoot>())
+        var aggregates = _context.ChangeTracker.Entries<Entity>()
+            .Select(entry => entry.Entity).ToList();
+        var messages = aggregates.SelectMany(entity => entity.DomainEvents)
+            .Select(OutboxMessage.Create).ToList();
+        _context.OutboxMessages.AddRange(messages);
+        try
         {
-            entry.Entity.ClearDomainEvents();
+            await _context.SaveChangesAsync(cancellationToken);
         }
-
-        await _context.SaveChangesAsync(cancellationToken);
+        catch
+        {
+            // Preserve events and remove only this attempt's staged messages for retry.
+            foreach (var message in messages)
+                _context.Entry(message).State = EntityState.Detached;
+            throw;
+        }
+        foreach (var aggregate in aggregates)
+            aggregate.ClearDomainEvents();
     }
 }

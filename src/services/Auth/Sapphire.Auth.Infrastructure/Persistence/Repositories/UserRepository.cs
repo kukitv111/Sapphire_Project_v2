@@ -48,13 +48,14 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<User?> GetByUsernameOrEmailAsync(string identifier, CancellationToken cancellationToken = default)
     {
-        var normalized = identifier.Trim().ToLowerInvariant();
-
-        return await _dbContext.Users
-            .Include(u => u.RefreshTokens)
-            .FirstOrDefaultAsync(
-                u => u.Username.Value == normalized || u.Email.Value == normalized,
-                cancellationToken);
+        // Compare converted value objects, not their unmapped Value member.
+        if (identifier.Contains('@'))
+        {
+            var email = Email.TryFrom(identifier);
+            return email is null ? null : await GetByEmailAsync(email, cancellationToken);
+        }
+        var username = Username.TryFrom(identifier);
+        return username is null ? null : await GetByUsernameAsync(username, cancellationToken);
     }
 
     public Task<bool> IsUsernameTakenAsync(Username username, CancellationToken cancellationToken = default)

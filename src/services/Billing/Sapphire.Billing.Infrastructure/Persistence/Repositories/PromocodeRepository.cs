@@ -17,6 +17,7 @@ public sealed class PromocodeRepository : IPromocodeRepository
     {
         var normalizedCode = Promocode.Normalize(code);
         return await _context.Promocodes
+            .Include(p => p.Usages)
             .FirstOrDefaultAsync(p => p.NormalizedCode == normalizedCode, cancellationToken);
     }
 

@@ -34,5 +34,11 @@ docker-compose up --build
 ## Architecture
 See [docs/architecture](docs/architecture).
 
+## Production readiness
+See the [production audit](docs/production-audit-2026-09-23.md) and
+[deployment runbook](docs/production-runbook.md) before deployment. Configure
+secrets and run explicit migrations before starting API containers. Production
+release is not yet approved; the audit records remaining business and operational gaps.
+
 ## Security
 See [docs/security](docs/security).

@@ -51,7 +51,7 @@ public sealed record Discount
 
         var discounted = Type switch
         {
-            PromocodeType.Percent => amountCents - (amountCents * ValueCents / 100),
+            PromocodeType.Percent => amountCents - (long)((decimal)amountCents * ValueCents / 100),
             PromocodeType.FixedAmount => amountCents - ValueCents,
             _ => amountCents
         };

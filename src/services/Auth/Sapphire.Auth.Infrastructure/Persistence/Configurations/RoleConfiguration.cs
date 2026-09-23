@@ -27,6 +27,26 @@ public sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Ignore(r => r.DomainEvents);
         builder.Ignore(r => r.UserRoles);
 
+        builder.HasMany(r => r.Permissions)
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "role_permissions",
+                right => right.HasOne<Permission>()
+                    .WithMany()
+                    .HasForeignKey("permission_id")
+                    .OnDelete(DeleteBehavior.Cascade),
+                left => left.HasOne<Role>()
+                    .WithMany()
+                    .HasForeignKey("role_id")
+                    .OnDelete(DeleteBehavior.Cascade),
+                join =>
+                {
+                    join.HasKey("role_id", "permission_id");
+                    join.ToTable("role_permissions");
+                    join.Property<DateTime>("assigned_at").HasDefaultValueSql("CURRENT_TIMESTAMP");
+                });
+        builder.Navigation(r => r.Permissions).UsePropertyAccessMode(PropertyAccessMode.Field);
+
         builder.HasIndex(r => r.Name).IsUnique();
         builder.HasIndex(r => r.NormalizedName).IsUnique();
     }

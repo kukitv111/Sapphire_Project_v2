@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Sapphire.Auth.Domain.Repositories;
 using Sapphire.Auth.Infrastructure.Persistence.Repositories;
+using Sapphire.Shared.Kernel.Entities;
 using Sapphire.Shared.Messaging.Outbox;
 
 namespace Sapphire.Auth.Infrastructure.Persistence;
@@ -24,9 +25,26 @@ public sealed class UnitOfWork : IUnitOfWork
     public IActivityHistoryRepository ActivityHistory => _activityHistory ??= new ActivityHistoryRepository(_context);
     public IOutboxRepository Outbox => _outbox ??= new OutboxRepository(_context);
 
-    public async Task SaveChangesAsync(CancellationToken ct = default)
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await _context.SaveChangesAsync(ct);
+        var aggregates = _context.ChangeTracker.Entries<Entity>()
+            .Select(entry => entry.Entity).ToList();
+        var messages = aggregates.SelectMany(entity => entity.DomainEvents)
+            .Select(OutboxMessage.Create).ToList();
+        _context.OutboxMessages.AddRange(messages);
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch
+        {
+            // Preserve events and remove only this attempt's staged messages for retry.
+            foreach (var message in messages)
+                _context.Entry(message).State = EntityState.Detached;
+            throw;
+        }
+        foreach (var aggregate in aggregates)
+            aggregate.ClearDomainEvents();
     }
 
     public async Task BeginTransactionAsync(CancellationToken ct = default)

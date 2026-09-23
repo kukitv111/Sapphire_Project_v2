@@ -15,10 +15,19 @@ public sealed class SessionDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Computer>().Ignore(c => c.DomainEvents);
+        modelBuilder.Entity<Computer>().Property(c => c.Status).IsConcurrencyToken();
+        modelBuilder.Entity<SessionAggregate>().Ignore(s => s.DomainEvents);
+        modelBuilder.Entity<SessionAggregate>().HasIndex(s => s.ComputerId)
+            .IsUnique().HasFilter("\"Status\" = 0");
         // Configure SessionTimeSlot ownership
         modelBuilder.Entity<SessionAggregate>(entity =>
         {
-            entity.OwnsOne(s => s.TimeSlot);
+            entity.OwnsOne(s => s.TimeSlot, slot =>
+            {
+                slot.Property(t => t.Start);
+                slot.Property(t => t.End);
+            });
         });
 
         base.OnModelCreating(modelBuilder);

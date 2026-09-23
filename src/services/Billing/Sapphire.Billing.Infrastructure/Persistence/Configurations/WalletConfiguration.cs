@@ -18,12 +18,12 @@ public sealed class WalletConfiguration : IEntityTypeConfiguration<Wallet>
 
         builder.OwnsOne(w => w.MainBalance, money =>
         {
-            money.Property(m => m.Cents).HasColumnName("main_balance_cents").IsRequired().HasDefaultValue(0);
+            money.Property(m => m.Cents).HasColumnName("main_balance_cents").IsRequired().HasDefaultValue(0).IsConcurrencyToken();
         });
 
         builder.OwnsOne(w => w.BonusBalance, money =>
         {
-            money.Property(m => m.Cents).HasColumnName("bonus_balance_cents").IsRequired().HasDefaultValue(0);
+            money.Property(m => m.Cents).HasColumnName("bonus_balance_cents").IsRequired().HasDefaultValue(0).IsConcurrencyToken();
         });
     }
 }

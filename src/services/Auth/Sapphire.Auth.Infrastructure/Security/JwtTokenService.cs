@@ -1,33 +1,38 @@
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Sapphire.Auth.Application.DTOs;
 using Sapphire.Auth.Application.Interfaces;
 using Sapphire.Auth.Domain.Aggregates;
+using Sapphire.Auth.Infrastructure.Persistence;
 using Sapphire.Shared.Security.Jwt;
 
 namespace Sapphire.Auth.Infrastructure.Security;
 
 /// <summary>
 /// Implementation of ITokenService using Shared.Security.Jwt.TokenService.
+/// Loads role names from database for proper RBAC token generation.
 /// </summary>
 public sealed class JwtTokenService : ITokenService
 {
     private readonly TokenService _tokenService;
+    private readonly AuthDbContext _dbContext;
 
-    public JwtTokenService(TokenService tokenService)
+    public JwtTokenService(TokenService tokenService, AuthDbContext dbContext)
     {
         _tokenService = tokenService;
+        _dbContext = dbContext;
     }
 
-    public Task<TokenDto> GenerateTokensAsync(User user, string? deviceInfo = null, string? ipAddress = null, CancellationToken cancellationToken = default)
+    public async Task<TokenDto> GenerateTokensAsync(User user, string? deviceInfo = null, string? ipAddress = null, CancellationToken cancellationToken = default)
     {
-        var roles = user.Roles.Select(r => r.RoleId.ToString());
-        var permissions = new List<string>(); // loaded from Role.Permissions when available
+        var roleNames = await GetRoleNamesAsync(user, cancellationToken);
+        var permissions = await GetPermissionsAsync(user, cancellationToken);
 
         var accessToken = _tokenService.GenerateAccessToken(
             user.Id,
             user.Email.Value,
-            roles,
+            roleNames,
             permissions);
 
         var (refreshToken, expiresAt) = _tokenService.GenerateRefreshToken();
@@ -44,14 +49,14 @@ public sealed class JwtTokenService : ITokenService
             ExpiresAt = expiresAt
         };
 
-        return Task.FromResult(tokenDto);
+        return tokenDto;
     }
 
     public string GenerateAccessToken(User user)
     {
-        var roles = user.Roles.Select(r => r.RoleId.ToString());
-        var permissions = new List<string>();
-        return _tokenService.GenerateAccessToken(user.Id, user.Email.Value, roles, permissions);
+        var roleNames = GetRoleNames(user);
+        var permissions = GetPermissions(user);
+        return _tokenService.GenerateAccessToken(user.Id, user.Email.Value, roleNames, permissions);
     }
 
     public (string Token, DateTime ExpiresAt) GenerateRefreshToken()
@@ -68,6 +73,62 @@ public sealed class JwtTokenService : ITokenService
     public Guid? GetUserIdFromToken(string accessToken)
     {
         return _tokenService.GetUserIdFromToken(accessToken);
+    }
+
+    private async Task<IReadOnlyList<string>> GetRoleNamesAsync(User user, CancellationToken cancellationToken = default)
+    {
+        if (user.Roles.Count == 0)
+            return [];
+
+        var roleIds = user.Roles.Select(r => r.RoleId).ToList();
+        return await _dbContext.Roles
+            .Where(r => r.IsActive && roleIds.Contains(r.Id))
+            .Select(r => r.Name)
+            .ToListAsync(cancellationToken);
+    }
+
+    private IReadOnlyList<string> GetRoleNames(User user)
+    {
+        if (user.Roles.Count == 0)
+            return [];
+
+        var roleIds = user.Roles.Select(r => r.RoleId).ToList();
+        return _dbContext.Roles
+            .Where(r => r.IsActive && roleIds.Contains(r.Id))
+            .Select(r => r.Name)
+            .ToList();
+    }
+
+    private async Task<IReadOnlyList<string>> GetPermissionsAsync(
+        User user,
+        CancellationToken cancellationToken = default)
+    {
+        if (user.Roles.Count == 0)
+            return [];
+
+        var roleIds = user.Roles.Select(r => r.RoleId).ToList();
+        return await _dbContext.Roles
+            .Where(r => r.IsActive && roleIds.Contains(r.Id))
+            .SelectMany(r => r.Permissions)
+            .Where(p => p.IsActive)
+            .Select(p => p.Code)
+            .Distinct()
+            .ToListAsync(cancellationToken);
+    }
+
+    private IReadOnlyList<string> GetPermissions(User user)
+    {
+        if (user.Roles.Count == 0)
+            return [];
+
+        var roleIds = user.Roles.Select(r => r.RoleId).ToList();
+        return _dbContext.Roles
+            .Where(r => r.IsActive && roleIds.Contains(r.Id))
+            .SelectMany(r => r.Permissions)
+            .Where(p => p.IsActive)
+            .Select(p => p.Code)
+            .Distinct()
+            .ToList();
     }
 }
 

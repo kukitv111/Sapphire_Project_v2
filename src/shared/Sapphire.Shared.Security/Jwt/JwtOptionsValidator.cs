@@ -10,7 +10,9 @@ public static class JwtOptionsValidator
         "sapphire-dev-secret-key-change-me-in-production-32chars-min",
         "change-me-in-production!!!",
         "super-secret-key-must-be-at-least-32-chars!",
-        "dev-secret-32-chars-placeholder-ok!!"
+        "dev-secret-32-chars-placeholder-ok!!",
+        "SET-VIA-ENV-VAR-OR-USER-SECRETS-JWT__SECRETKEY",
+        "your_secure_32_char_secret_key_minimum"
     };
 
     public static void Validate(JwtOptions? options, string environmentName)

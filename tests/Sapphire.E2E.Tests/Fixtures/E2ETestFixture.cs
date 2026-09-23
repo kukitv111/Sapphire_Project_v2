@@ -54,7 +54,7 @@ public sealed class E2ETestFixture : IAsyncLifetime
         if (string.IsNullOrEmpty(body)) return ("unknown_user", "unknown@test.com");
         try
         {
-            var doc = JsonDocument.Parse(body);
+            using var doc = JsonDocument.Parse(body);
             var username = doc.RootElement.TryGetProperty("username", out var u) ? u.GetString() ?? "unknown_user" : "unknown_user";
             var email = doc.RootElement.TryGetProperty("email", out var e) ? e.GetString() ?? "unknown@test.com" : "unknown@test.com";
             var login = doc.RootElement.TryGetProperty("login", out var l) ? l.GetString() : null;
@@ -95,7 +95,7 @@ public sealed class E2ETestFixture : IAsyncLifetime
                     {
                         try
                         {
-                            var doc = JsonDocument.Parse(ctx.Body);
+                            using var doc = JsonDocument.Parse(ctx.Body);
                             if (doc.RootElement.TryGetProperty("login", out var l))
                                 login = l.GetString() ?? "unknown_user";
                         }

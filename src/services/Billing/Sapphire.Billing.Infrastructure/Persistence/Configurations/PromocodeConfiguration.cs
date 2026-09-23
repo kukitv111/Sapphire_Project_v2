@@ -24,6 +24,7 @@ public sealed class PromocodeConfiguration : IEntityTypeConfiguration<Promocode>
         builder.Property(p => p.MaxUsesPerUser).IsRequired(false);
         builder.Property(p => p.IsActive).IsRequired();
 
+        builder.Property(p => p.UsedCount).IsConcurrencyToken();
         // Usages are stored in a separate table
         builder.HasMany(p => p.Usages)
             .WithOne()

@@ -25,15 +25,4 @@ public static class DependencyInjection
 
         return services;
     }
-
-    public static IServiceCollection AddBillingDatabaseInitializer(this IServiceCollection services)
-    {
-        services.AddScoped<BillingDatabaseInitializer>();
-        return services;
-    }
-}
-
-public class BillingDatabaseInitializer(BillingDbContext dbContext)
-{
-    public void Initialize() => dbContext.Database.EnsureCreated();
 }

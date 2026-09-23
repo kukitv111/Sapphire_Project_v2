@@ -19,7 +19,19 @@ public abstract class ApiControllerBase : ControllerBase
     /// Maps a generic Result to an HTTP response using the provided success projection.
     /// </summary>
     protected IActionResult FromResult<T>(Result<T> result, Func<T, IActionResult> onSuccess)
-        => result.IsSuccess ? onSuccess(result.Value) : Failure(result.Error);
+    {
+        ArgumentNullException.ThrowIfNull(onSuccess);
+
+        if (!result.IsSuccess)
+            return Failure(result.Error);
+
+        return result.Value is { } value
+            ? onSuccess(value)
+            : Problem(
+                statusCode: StatusCodes.Status500InternalServerError,
+                title: "invalid_result",
+                detail: "A successful result must contain a value.");
+    }
 
     private IActionResult Failure(Error error)
     {

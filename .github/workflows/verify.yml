@@ -1,0 +1,39 @@
+name: Verify
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - run: dotnet restore Sapphire.sln
+      - run: dotnet build Sapphire.sln -c Release --no-restore --warnaserror
+      - run: dotnet test Sapphire.sln -c Release --no-build
+      - run: dotnet tool restore
+      - name: Check migration snapshots
+        shell: pwsh
+        run: |
+          foreach ($service in @('Auth', 'Billing', 'Session')) {
+            dotnet ef migrations has-pending-model-changes --project "src/services/$service/Sapphire.$service.Infrastructure"
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: admin-react
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: admin-react/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+      - run: npm audit --omit=dev

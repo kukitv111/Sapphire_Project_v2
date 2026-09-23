@@ -57,7 +57,7 @@ public sealed record Money : ValueObject
     public Money Add(Money other)
     {
         ArgumentNullException.ThrowIfNull(other);
-        return new Money(Cents + other.Cents);
+        return new Money(checked(Cents + other.Cents));
     }
 
     /// <summary>

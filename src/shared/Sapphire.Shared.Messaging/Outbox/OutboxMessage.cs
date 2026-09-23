@@ -24,8 +24,8 @@ public sealed class OutboxMessage
         return new OutboxMessage
         {
             Id = Guid.NewGuid(),
-            Type = typeof(T).AssemblyQualifiedName ?? typeof(T).Name,
-            Content = JsonSerializer.Serialize(domainEvent),
+            Type = domainEvent.GetType().AssemblyQualifiedName ?? domainEvent.GetType().Name,
+            Content = JsonSerializer.Serialize(domainEvent, domainEvent.GetType()),
             OccurredOn = DateTime.UtcNow,
             CreatedAt = DateTime.UtcNow,
             RetryCount = 0

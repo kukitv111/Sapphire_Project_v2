@@ -11,12 +11,17 @@ public sealed record Password : ValueObject
     /// <summary>
     /// The hashed password.
     /// </summary>
-    public string Hash { get; }
+    public string Hash { get; private init; } = string.Empty;
 
     /// <summary>
     /// The salt used for hashing.
     /// </summary>
-    public string Salt { get; }
+    public string Salt { get; private init; } = string.Empty;
+
+    private Password()
+    {
+        // Required by EF Core materialization.
+    }
 
     private Password(string hash, string salt)
     {

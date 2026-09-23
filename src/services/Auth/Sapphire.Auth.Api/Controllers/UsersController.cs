@@ -13,7 +13,7 @@ namespace Sapphire.Auth.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/users")]
-[Authorize(Roles = "Admin")]
+[Authorize(Policy = Sapphire.Shared.Security.PolicyNames.AdminOnly)]
 public class UsersController : ControllerBase
 {
     private readonly IMediator _mediator;

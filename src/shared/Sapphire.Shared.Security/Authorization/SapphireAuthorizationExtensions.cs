@@ -33,13 +33,16 @@ public static class SapphireAuthorizationExtensions
 
         services.AddRateLimiter(options =>
         {
-            options.AddFixedWindowLimiter(PolicyNames.AuthRateLimit, opt =>
+            options.AddPolicy(PolicyNames.AuthRateLimit, context =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                    _ => new FixedWindowRateLimiterOptions
             {
-                opt.PermitLimit = 10;
-                opt.Window = TimeSpan.FromMinutes(1);
-                opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-                opt.QueueLimit = 0;
-            });
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 0
+            }));
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
         });
 

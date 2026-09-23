@@ -24,15 +24,4 @@ public static class DependencyInjection
 
         return services;
     }
-
-    public static IServiceCollection AddSessionDatabaseInitializer(this IServiceCollection services)
-    {
-        services.AddScoped<SessionDatabaseInitializer>();
-        return services;
-    }
-}
-
-public class SessionDatabaseInitializer(SessionDbContext dbContext)
-{
-    public void Initialize() => dbContext.Database.EnsureCreated();
 }

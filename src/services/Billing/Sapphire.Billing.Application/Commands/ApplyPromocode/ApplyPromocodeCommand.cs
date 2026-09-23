@@ -41,6 +41,9 @@ public sealed class ApplyPromocodeCommandHandler : IRequestHandler<ApplyPromocod
             return Result.Failure<WalletDto>(Error.Create("PROMOCODE_NOT_FOUND", "Промокод не найден"));
 
         // Проверка валидности промокода
+        if (promocode.Type != Sapphire.Billing.Domain.Enums.PromocodeType.FixedAmount)
+            return Result.Failure<WalletDto>(Error.Validation("Percentage discounts require a purchase amount"));
+
         if (!promocode.CanBeUsed(wallet.UserId, DateTime.UtcNow))
             return Result.Failure<WalletDto>(Error.Create("PROMOCODE_INVALID", "Промокод недействителен или исчерпан"));
 
