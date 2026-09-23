@@ -27,6 +27,7 @@ public sealed class Tariff : AggregateRoot
     /// <summary>Bonus minutes granted with the package.</summary>
     public int? PackageBonusMinutes { get; private set; }
 
+    public long PackagePriceCents { get; private set; }
     public bool IsActive { get; private set; }
     public bool IsSystem { get; private set; }
 
@@ -36,7 +37,7 @@ public sealed class Tariff : AggregateRoot
     }
 
     private Tariff(string name, TariffType type, long pricePerMinuteCents, long pricePerHourCents,
-        int? packageDurationMinutes, int? packageBonusMinutes, bool isSystem)
+        int? packageDurationMinutes, int? packageBonusMinutes, bool isSystem, long packagePriceCents = 0)
     {
         Name = name;
         Type = type;
@@ -44,6 +45,7 @@ public sealed class Tariff : AggregateRoot
         PricePerHourCents = pricePerHourCents;
         PackageDurationMinutes = packageDurationMinutes;
         PackageBonusMinutes = packageBonusMinutes;
+        PackagePriceCents = packagePriceCents;
         IsActive = true;
         IsSystem = isSystem;
     }
@@ -58,7 +60,8 @@ public sealed class Tariff : AggregateRoot
         long? pricePerHourCents = null,
         int? packageDurationMinutes = null,
         int? packageBonusMinutes = null,
-        bool isSystem = false)
+        bool isSystem = false,
+        long? packagePriceCents = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Tariff name cannot be empty", nameof(name));
@@ -74,7 +77,7 @@ public sealed class Tariff : AggregateRoot
                 name, type, 0, 0,
                 (int)RequirePositive(packageDurationMinutes, nameof(packageDurationMinutes)),
                 packageBonusMinutes is > 0 ? packageBonusMinutes : null,
-                isSystem),
+                isSystem, RequirePositive(packagePriceCents, nameof(packagePriceCents))),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Unknown tariff type")
         };
 

@@ -26,6 +26,8 @@ public sealed class CreateTariffCommandValidator : AbstractValidator<CreateTarif
         When(x => x.Type == TariffType.Package,
             () =>
             {
+                RuleFor(x => x.PackagePriceCents)
+                    .Must(p => p is > 0).WithMessage("Package price must be positive");
                 RuleFor(x => x.PackageDurationMinutes)
                     .Must(d => d.HasValue && d.Value > 0).WithMessage("Package duration must be positive");
 

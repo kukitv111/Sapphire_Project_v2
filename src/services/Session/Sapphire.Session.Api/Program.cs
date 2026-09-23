@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Sapphire.Shared.Messaging.Outbox;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +31,8 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddSessionApplication();
 builder.Services.AddSessionInfrastructure(builder.Configuration);
+builder.Services.AddScoped<IIncomingEventHandler, NoOpIncomingEventHandler>();
+builder.Services.AddOutboxTransport<Sapphire.Session.Infrastructure.Persistence.SessionDbContext>();
 
 builder.Services.AddJwtAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddSapphireAuthorization();
@@ -75,6 +78,7 @@ app.MapGet("/health/ready", async (Sapphire.Session.Infrastructure.Persistence.S
     }
 }).AllowAnonymous();
 app.MapControllers();
+app.MapOutboxInbox<Sapphire.Session.Infrastructure.Persistence.SessionDbContext>();
 
 app.Run();
 

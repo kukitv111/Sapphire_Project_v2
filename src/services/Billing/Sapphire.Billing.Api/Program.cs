@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Sapphire.Billing.Api.Services;
+using Sapphire.Shared.Messaging.Outbox;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +35,8 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddBillingApplication();
 builder.Services.AddBillingInfrastructure(builder.Configuration);
+builder.Services.AddScoped<IIncomingEventHandler, SessionBillingEventHandler>();
+builder.Services.AddOutboxTransport<BillingDbContext>();
 
 builder.Services.AddJwtAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddSapphireAuthorization();
@@ -111,6 +115,8 @@ app.MapGet("/health/ready", async (Sapphire.Billing.Infrastructure.Persistence.B
     }
 }).AllowAnonymous();
 app.MapControllers();
+app.MapOutboxInbox<BillingDbContext>();
+app.MapInternalBillingEndpoints();
 
 app.Run();
 

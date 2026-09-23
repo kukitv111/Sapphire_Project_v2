@@ -9,6 +9,9 @@ public static class ProductionConfiguration
     public static void Validate(IConfiguration configuration, IHostEnvironment environment)
     {
         if (!environment.IsProduction()) return;
+        var messagingSecret = configuration["Messaging:SharedSecret"];
+        if (string.IsNullOrWhiteSpace(messagingSecret) || messagingSecret.Length < 32)
+            throw new InvalidOperationException("A 32-character messaging shared secret is required");
         var connection = configuration.GetConnectionString("DefaultConnection");
         if (string.IsNullOrWhiteSpace(connection))
             throw new InvalidOperationException("Database connection configuration is required");

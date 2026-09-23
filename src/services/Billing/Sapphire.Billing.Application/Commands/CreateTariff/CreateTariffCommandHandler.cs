@@ -29,7 +29,8 @@ public sealed class CreateTariffCommandHandler : IRequestHandler<CreateTariffCom
             request.PricePerHourCents,
             request.PackageDurationMinutes,
             request.PackageBonusMinutes,
-            request.IsSystem);
+            request.IsSystem,
+            request.PackagePriceCents);
 
         await _tariffRepository.AddAsync(tariff, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -43,6 +44,7 @@ public sealed class CreateTariffCommandHandler : IRequestHandler<CreateTariffCom
             PricePerHourCents = tariff.PricePerHourCents,
             PackageDurationMinutes = tariff.PackageDurationMinutes,
             PackageBonusMinutes = tariff.PackageBonusMinutes,
+            PackagePriceCents = tariff.PackagePriceCents,
             IsActive = tariff.IsActive,
             IsSystem = tariff.IsSystem
         });

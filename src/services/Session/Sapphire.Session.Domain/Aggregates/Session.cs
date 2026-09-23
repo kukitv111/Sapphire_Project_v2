@@ -10,6 +10,8 @@ public sealed class Session : AggregateRoot
     public Guid UserId { get; private set; }
     public SessionTimeSlot TimeSlot { get; private set; }
     public SessionStatus Status { get; private set; }
+    public Guid EntitlementId { get; private set; }
+    public DateTime? CompletedAt { get; private set; }
 
     // EF Core constructor
     private Session()
@@ -17,11 +19,12 @@ public sealed class Session : AggregateRoot
         TimeSlot = null!;
     }
 
-    public Session(Guid computerId, Guid userId, SessionTimeSlot timeSlot)
+    public Session(Guid computerId, Guid userId, SessionTimeSlot timeSlot, Guid entitlementId = default)
     {
         ComputerId = computerId;
         UserId = userId;
         TimeSlot = timeSlot;
+        EntitlementId = entitlementId;
         Status = SessionStatus.Active;
         AddDomainEvent(new SessionCreatedEvent(Id, computerId, userId, timeSlot));
     }
@@ -32,7 +35,17 @@ public sealed class Session : AggregateRoot
             throw new InvalidOperationException("Cannot complete already completed session");
 
         Status = SessionStatus.Completed;
-        AddDomainEvent(new SessionCompletedEvent(Id, DateTime.UtcNow));
+        CompletedAt = DateTime.UtcNow;
+        AddDomainEvent(new SessionCompletedEvent(Id, CompletedAt.Value));
+    }
+
+    public void Cancel()
+    {
+        if (Status != SessionStatus.Active)
+            throw new InvalidOperationException("Only active sessions can be cancelled");
+        Status = SessionStatus.Cancelled;
+        CompletedAt = DateTime.UtcNow;
+        AddDomainEvent(new SessionCancelledEvent(Id, CompletedAt.Value));
     }
 }
 

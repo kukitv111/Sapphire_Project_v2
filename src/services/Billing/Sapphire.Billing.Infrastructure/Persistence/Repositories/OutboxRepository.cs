@@ -17,7 +17,7 @@ public sealed class OutboxRepository : IOutboxRepository
     public async Task<IReadOnlyList<OutboxMessage>> GetUnprocessedAsync(int batchSize = 100, CancellationToken ct = default)
     {
         return await _context.OutboxMessages
-            .Where(m => m.ProcessedOn == null)
+            .Where(m => m.ProcessedOn == null && m.DeadLetterAt == null)
             .OrderBy(m => m.OccurredOn)
             .Take(batchSize)
             .ToListAsync(ct);
@@ -53,7 +53,7 @@ public sealed class OutboxRepository : IOutboxRepository
     public async Task<IReadOnlyList<OutboxMessage>> GetForRetryAsync(int maxRetryCount, int batchSize, CancellationToken ct = default)
     {
         return await _context.OutboxMessages
-            .Where(m => m.ProcessedOn == null && m.Error != null && m.RetryCount < maxRetryCount)
+            .Where(m => m.ProcessedOn == null && m.Error != null && m.DeadLetterAt == null && m.RetryCount < maxRetryCount)
             .OrderBy(m => m.OccurredOn)
             .Take(batchSize)
             .ToListAsync(ct);

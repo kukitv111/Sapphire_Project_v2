@@ -1,0 +1,50 @@
+services:
+  auth-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${SAPPHIRE_SMOKE_DB_PASSWORD}
+      POSTGRES_DB: sapphire_auth_smoke
+    ports:
+      - "127.0.0.1::5432"
+    volumes:
+      - auth_smoke:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sapphire_auth_smoke"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+  billing-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${SAPPHIRE_SMOKE_DB_PASSWORD}
+      POSTGRES_DB: sapphire_billing_smoke
+    ports:
+      - "127.0.0.1::5432"
+    volumes:
+      - billing_smoke:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sapphire_billing_smoke"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+  session-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${SAPPHIRE_SMOKE_DB_PASSWORD}
+      POSTGRES_DB: sapphire_session_smoke
+    ports:
+      - "127.0.0.1::5432"
+    volumes:
+      - session_smoke:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sapphire_session_smoke"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+volumes:
+  auth_smoke:
+  billing_smoke:
+  session_smoke:

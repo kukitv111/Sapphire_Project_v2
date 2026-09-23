@@ -18,6 +18,22 @@ public sealed class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
+    public async Task BeginTransactionAsync(CancellationToken ct = default)
+    {
+        if (_context.Database.IsRelational())
+            await _context.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
+    }
+    public async Task CommitTransactionAsync(CancellationToken ct = default)
+    {
+        if (_context.Database.CurrentTransaction is { } transaction)
+            await transaction.CommitAsync(ct);
+    }
+    public async Task RollbackTransactionAsync(CancellationToken ct = default)
+    {
+        if (_context.Database.CurrentTransaction is { } transaction)
+            await transaction.RollbackAsync(ct);
+    }
+
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var aggregates = _context.ChangeTracker.Entries<Entity>()

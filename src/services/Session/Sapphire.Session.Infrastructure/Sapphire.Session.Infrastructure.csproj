@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sapphire.Session.Domain\Sapphire.Session.Domain.csproj" />
+    <ProjectReference Include="..\Sapphire.Session.Application\Sapphire.Session.Application.csproj" />
     <ProjectReference Include="..\..\..\shared\Sapphire.Shared.Kernel\Sapphire.Shared.Kernel.csproj" />
     <ProjectReference Include="..\..\..\shared\Sapphire.Shared.Messaging\Sapphire.Shared.Messaging.csproj" />
   </ItemGroup>

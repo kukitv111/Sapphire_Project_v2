@@ -2,9 +2,9 @@
 
 ## Configuration
 
-Set independent random `DB_PASSWORD` and `JWT_SECRET_KEY` values in an ignored `.env` file or the deployment secret store. JWT secret must be at least 32 characters. Set `ADMIN_ORIGIN` to the exact admin frontend origin. The example contains empty values intentionally; copying it without configuring secrets must not start the services.
+Set independent random `DB_PASSWORD`, `JWT_SECRET_KEY` and `EVENT_TRANSPORT_KEY` values in an ignored `.env` file or the deployment secret store. JWT and event transport secrets must each be at least 32 characters. Set `ADMIN_ORIGIN` to the exact admin frontend origin. The example contains empty values intentionally; copying it without configuring secrets must not start the services.
 
-For local `dotnet run`, provide `ConnectionStrings__DefaultConnection`, `Jwt__SecretKey`, and optionally `Cors__AllowedOrigins__0` in that process's environment or user secrets. Tracked development settings contain no working credentials. All three services must agree on JWT issuer, audience and secret. Never use a shared development/test signing key in production.
+For local `dotnet run`, provide `ConnectionStrings__DefaultConnection`, `Jwt__SecretKey`, `Messaging__SharedSecret`, and optionally `Cors__AllowedOrigins__0` in that process's environment or user secrets. Session also needs `Billing__InternalUrl`; each host needs `Messaging__Subscribers__N` for event delivery. Tracked development settings contain no working credentials. All three services must agree on JWT issuer, audience and secret. Never use a shared development/test signing key in production.
 
 ## Empty-database deployment
 
@@ -24,6 +24,14 @@ Stop immediately if any migration command fails. Migration mode applies migratio
 The API ports are published on loopback: 5001 Auth, 5002 Billing, 5003 Session. PostgreSQL ports 5433–5435 are also loopback-only. There is no gateway on port 8080. Place a configured TLS reverse proxy in front of the APIs before external access.
 
 Probe `/health/live` for process health and `/health/ready` for database/schema readiness. Readiness returns 503 for unavailable databases or unapplied migrations; it does not verify event delivery, business workflows or every column. The runtime container does not install curl; configure HTTP probes externally.
+
+The Session API reserves prepaid tariff credit synchronously from Billing before
+starting a session. `session.completed.v1` and `session.cancelled.v1` settle or
+release that reserve asynchronously. Monitor old reservations and outbox rows
+with `DeadLetterAt` set; investigate and explicitly reset `RetryCount`, `Error`,
+`DeadLetterAt`, and `NextAttemptAt` only after correcting the cause. Keep
+`/internal/*` inaccessible from the public ingress. See the
+[transport decision](decisions/0001-local-outbox-http.md) for failure handling.
 
 ## Existing databases
 
@@ -49,6 +57,17 @@ npm audit --omit=dev
 
 The full solution includes WPF and is built on Windows in CI. Container builds target API projects only. Generate reviewable migration SQL with `dotnet ef migrations script --idempotent --project <Infrastructure-project> --output <file.sql>`.
 
+For a disposable local PostgreSQL integration check with a running Docker engine:
+
+```sh
+python tests/Sapphire.Postgres.Smoke/run_temp_postgres.py
+```
+
+This creates and removes a temporary PostgreSQL container and three throwaway
+databases. It tests all migrations, a purchase and replay, concurrent reserve,
+settlement, inbox deduplication and the Session outbox. It does not touch the
+Compose volumes or an existing database.
+
 ## API compatibility changes
 
 - Result failures now use meaningful non-2xx HTTP status codes; JSON Result envelopes remain unchanged. Axios callers must handle rejections.
@@ -57,5 +76,15 @@ The full solution includes WPF and is built on Windows in CI. Container builds t
 - Auth register/login/refresh share a ten-request-per-minute budget per connection IP and process. Configure trusted proxies and an edge limiter for multi-instance deployments.
 - Sessions lists are limited to 1–200 items.
 - Database/model concurrency protection requires fresh reads after conflicts; do not blindly retry financial operations without idempotency keys.
+- Tariff purchases require an `Idempotency-Key` header and debit the user's
+  wallet once to create prepaid credit. Package tariffs require
+  `PackagePriceCents` when created. The purchase response contains the
+  entitlement and wallet payment transaction IDs.
+- Session start requires `EntitlementId`; completion is
+  `POST /api/sessions/{id}/complete`. Staff cancellation is
+  `POST /api/sessions/{id}/cancel` and refunds the entire reserve. Ordinary
+  early completion charges elapsed time and refunds only unused reserve.
 
-Production release remains blocked by the incomplete business flows and unverified deployment gates described in the audit report.
+Before production release, verify live HTTP delivery, workload concurrency,
+fault reconciliation, network isolation and deployment/backup procedures.
+External payment provider integration remains an explicit TODO.

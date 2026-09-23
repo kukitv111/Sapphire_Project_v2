@@ -38,6 +38,7 @@ public sealed record TariffDto
     public long PricePerHourCents { get; init; }
     public int? PackageDurationMinutes { get; init; }
     public int? PackageBonusMinutes { get; init; }
+    public long PackagePriceCents { get; init; }
     public bool IsActive { get; init; }
     public bool IsSystem { get; init; }
 }

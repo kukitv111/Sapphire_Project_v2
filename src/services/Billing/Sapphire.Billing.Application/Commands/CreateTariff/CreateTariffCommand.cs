@@ -15,4 +15,5 @@ public sealed record CreateTariffCommand(
     long? PricePerHourCents = null,
     int? PackageDurationMinutes = null,
     int? PackageBonusMinutes = null,
-    bool IsSystem = false) : IRequest<Result<TariffDto>>;
+    bool IsSystem = false,
+    long? PackagePriceCents = null) : IRequest<Result<TariffDto>>;

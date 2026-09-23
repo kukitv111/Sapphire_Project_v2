@@ -43,7 +43,7 @@ public sealed class ProductionRegressionTests
     {
         IDomainEvent domainEvent = new UserRegisteredEvent { UserId = Guid.NewGuid(), Username = "alice" };
         var message = OutboxMessage.Create(domainEvent);
-        Assert.Equal(typeof(UserRegisteredEvent).AssemblyQualifiedName, message.Type);
+        Assert.Equal("auth.user-registered.v1", message.Type);
         Assert.Equal("alice", message.Deserialize<UserRegisteredEvent>()!.Username);
         Assert.Equal(((UserRegisteredEvent)domainEvent).UserId, message.Deserialize<UserRegisteredEvent>()!.UserId);
     }
@@ -76,6 +76,24 @@ public sealed class ProductionRegressionTests
         using var factory = new ApiFactory<SessionController>();
         using var client = factory.AuthenticatedClient();
         Assert.Equal(HttpStatusCode.Forbidden, (await client.GetAsync("/api/sessions")).StatusCode);
+    }
+
+    [Fact]
+    public async Task Ordinary_user_cannot_cancel_an_active_session_without_charge()
+    {
+        using var factory = new ApiFactory<SessionController>();
+        using var client = factory.AuthenticatedClient();
+        Assert.Equal(HttpStatusCode.Forbidden,
+            (await client.PostAsJsonAsync($"/api/sessions/{Guid.NewGuid()}/cancel", new { })).StatusCode);
+    }
+
+    [Fact]
+    public async Task Billing_forbids_reading_another_users_entitlements()
+    {
+        using var factory = new ApiFactory<BillingController>();
+        using var client = factory.AuthenticatedClient();
+        Assert.Equal(HttpStatusCode.Forbidden,
+            (await client.GetAsync($"/api/billing/users/{Guid.NewGuid()}/tariffs")).StatusCode);
     }
 
     private sealed class FailOnce : SaveChangesInterceptor

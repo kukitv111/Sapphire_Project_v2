@@ -9,6 +9,7 @@ public sealed class SessionDbContext : DbContext
 {
     public DbSet<Computer> Computers => Set<Computer>();
     public DbSet<SessionAggregate> Sessions => Set<SessionAggregate>();
+    public DbSet<InboxMessage> InboxMessages => Set<InboxMessage>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     public SessionDbContext(DbContextOptions<SessionDbContext> options) : base(options) { }
@@ -30,6 +31,12 @@ public sealed class SessionDbContext : DbContext
             });
         });
 
+        modelBuilder.Entity<InboxMessage>(entity =>
+        {
+            entity.ToTable("inbox_messages");
+            entity.HasKey(m => m.EventId);
+            entity.Property(m => m.Type).HasMaxLength(160);
+        });
         base.OnModelCreating(modelBuilder);
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sapphire.Session.Application;
 using Sapphire.Session.Domain.Repositories;
 using Sapphire.Session.Infrastructure.Persistence;
 using Sapphire.Session.Infrastructure.Persistence.Repositories;
@@ -21,6 +22,12 @@ public static class DependencyInjection
         services.AddScoped<ISessionRepository, SessionRepository>();
         services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddHttpClient<IBillingReservationClient, BillingReservationClient>(client =>
+        {
+            var url = configuration["Billing:InternalUrl"] ?? "http://localhost:5191/";
+            client.BaseAddress = new Uri(url.TrimEnd('/') + "/");
+            client.Timeout = TimeSpan.FromSeconds(5);
+        });
 
         return services;
     }

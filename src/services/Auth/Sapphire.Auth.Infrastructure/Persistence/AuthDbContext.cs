@@ -13,11 +13,18 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbC
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<ActivityHistory> ActivityHistories => Set<ActivityHistory>();
     public DbSet<ActivityHistory> ActivityHistory => Set<ActivityHistory>();
+    public DbSet<InboxMessage> InboxMessages => Set<InboxMessage>();
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
+        modelBuilder.Entity<InboxMessage>(entity =>
+        {
+            entity.ToTable("inbox_messages");
+            entity.HasKey(m => m.EventId);
+            entity.Property(m => m.Type).HasMaxLength(160);
+        });
         base.OnModelCreating(modelBuilder);
     }
 }

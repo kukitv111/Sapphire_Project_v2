@@ -104,6 +104,9 @@ namespace Sapphire.Billing.Infrastructure.Persistence.Migrations
                     b.Property<int?>("PackageDurationMinutes")
                         .HasColumnType("integer");
 
+                    b.Property<long>("PackagePriceCents")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("PricePerHourCents")
                         .HasColumnType("bigint");
 
@@ -120,6 +123,65 @@ namespace Sapphire.Billing.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tariffs", (string)null);
+                });
+
+            modelBuilder.Entity("Sapphire.Billing.Domain.Aggregates.TariffEntitlement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("AvailableCents")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IdempotencyKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PackageMinutes")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("PackagePriceCents")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("PaymentTransactionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("PricePerHourCents")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PricePerMinuteCents")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PurchasedCents")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ReservedCents")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("TariffId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "IdempotencyKey")
+                        .IsUnique();
+
+                    b.ToTable("tariff_entitlements", (string)null);
                 });
 
             modelBuilder.Entity("Sapphire.Billing.Domain.Aggregates.Wallet", b =>
@@ -179,6 +241,53 @@ namespace Sapphire.Billing.Infrastructure.Persistence.Migrations
                     b.ToTable("PromocodeUsages");
                 });
 
+            modelBuilder.Entity("Sapphire.Billing.Domain.Entities.SessionReservation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("ChargedCents")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("EntitlementId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("PlannedEndAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("ReservedCents")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId")
+                        .IsUnique();
+
+                    b.ToTable("session_reservations", (string)null);
+                });
+
             modelBuilder.Entity("Sapphire.Billing.Domain.Entities.WalletTransaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -226,6 +335,25 @@ namespace Sapphire.Billing.Infrastructure.Persistence.Migrations
                     b.ToTable("WalletTransactions");
                 });
 
+            modelBuilder.Entity("Sapphire.Shared.Messaging.Outbox.InboxMessage", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ReceivedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("character varying(160)");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("inbox_messages", (string)null);
+                });
+
             modelBuilder.Entity("Sapphire.Shared.Messaging.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -239,8 +367,14 @@ namespace Sapphire.Billing.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("DeadLetterAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Error")
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("NextAttemptAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("OccurredOn")
                         .HasColumnType("timestamp with time zone");

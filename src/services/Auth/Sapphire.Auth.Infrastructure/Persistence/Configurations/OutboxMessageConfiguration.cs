@@ -21,6 +21,8 @@ public sealed class OutboxMessageConfiguration : IEntityTypeConfiguration<Outbox
         builder.Property(m => m.OccurredOn).HasColumnName("occurred_on").IsRequired();
         builder.Property(m => m.ProcessedOn).HasColumnName("processed_on");
         builder.Property(m => m.Error).HasColumnName("error").HasColumnType("text");
+        builder.Property(m => m.DeadLetterAt).HasColumnName("dead_letter_at");
+        builder.Property(m => m.NextAttemptAt).HasColumnName("next_attempt_at");
         builder.Property(m => m.RetryCount).HasColumnName("retry_count").HasDefaultValue(0);
         builder.Property(m => m.CreatedAt).HasColumnName("created_at").IsRequired();
 

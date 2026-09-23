@@ -14,6 +14,8 @@ public sealed class OutboxMessage
     public DateTime? ProcessedOn { get; set; }
     public string? Error { get; set; }
     public int RetryCount { get; set; }
+    public DateTime? DeadLetterAt { get; set; }
+    public DateTime? NextAttemptAt { get; set; }
     public DateTime CreatedAt { get; set; }
 
     /// <summary>
@@ -24,7 +26,7 @@ public sealed class OutboxMessage
         return new OutboxMessage
         {
             Id = Guid.NewGuid(),
-            Type = domainEvent.GetType().AssemblyQualifiedName ?? domainEvent.GetType().Name,
+            Type = EventNames.For(domainEvent.GetType()),
             Content = JsonSerializer.Serialize(domainEvent, domainEvent.GetType()),
             OccurredOn = DateTime.UtcNow,
             CreatedAt = DateTime.UtcNow,

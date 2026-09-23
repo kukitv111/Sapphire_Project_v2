@@ -18,10 +18,12 @@ public static class DependencyInjection
 
         // Repositories
         services.AddScoped<IWalletRepository, WalletRepository>();
+        services.AddScoped<IEntitlementRepository, EntitlementRepository>();
         services.AddScoped<ITariffRepository, TariffRepository>();
         services.AddScoped<IPromocodeRepository, PromocodeRepository>();
         services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<Sapphire.Billing.Infrastructure.Services.BillingReservationService>();
 
         return services;
     }

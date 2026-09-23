@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sapphire.Session.Application.Commands.StartSession;
+using Sapphire.Session.Application.Commands.FinishSession;
 using Sapphire.Session.Application.DTOs;
 using Sapphire.Session.Application.Queries.GetSessions;
 using Sapphire.Shared.Kernel.Common;
@@ -36,6 +37,24 @@ public class SessionController : ControllerBase
     [Authorize(Policy = Sapphire.Shared.Security.PolicyNames.CashierOrAdmin)]
     public async Task<Result<IReadOnlyList<SessionDto>>> GetSessions([FromQuery] int limit = 50)
         => await _mediator.Send(new GetSessionsQuery(Math.Clamp(limit, 1, 200)));
+
+    [HttpPost("{sessionId:guid}/complete")]
+    public Task<Result<SessionDto>> Complete(Guid sessionId)
+        => Finish(sessionId, cancel: false);
+
+    [HttpPost("{sessionId:guid}/cancel")]
+    [Authorize(Policy = Sapphire.Shared.Security.PolicyNames.CashierOrAdmin)]
+    public Task<Result<SessionDto>> Cancel(Guid sessionId)
+        => Finish(sessionId, cancel: true);
+
+    private Task<Result<SessionDto>> Finish(Guid sessionId, bool cancel)
+    {
+        var actor = ResolveCurrentUserId();
+        if (actor is null)
+            return Task.FromResult(Result.Failure<SessionDto>(Error.Unauthorized("User id claim is missing")));
+        var staff = User.IsInRole("Cashier") || User.IsInRole("Admin") || User.IsInRole("Owner");
+        return _mediator.Send(new FinishSessionCommand(sessionId, actor.Value, staff, cancel));
+    }
 
     private Guid? ResolveCurrentUserId()
     {

@@ -32,3 +32,5 @@ public sealed record SessionCreatedEvent(Guid SessionId, Guid ComputerId, Guid U
 /// Published when a session is completed.
 /// </summary>
 public sealed record SessionCompletedEvent(Guid SessionId, DateTime CompletedAt) : DomainEventBase;
+
+public sealed record SessionCancelledEvent(Guid SessionId, DateTime CancelledAt) : DomainEventBase;

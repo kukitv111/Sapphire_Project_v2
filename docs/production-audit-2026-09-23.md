@@ -1,5 +1,13 @@
 # Production audit — 2026-09-23
 
+> Follow-up on 2026-09-23: prepaid tariff purchase, session reservation/settlement,
+> and local outbox delivery were implemented after this audit. Findings 1 and 2
+> in "Remaining release blockers" below describe the state *at the time of the audit*.
+> Current design and remaining constraints are in
+> [ADR 0001](decisions/0001-local-outbox-http.md) and
+> [ADR 0002](decisions/0002-prepaid-tariff-settlement.md). The new PostgreSQL smoke
+> check covers migrations, purchase, concurrent reservation, settlement and inbox.
+
 ## Verdict and scope
 
 **Not approved for production release.** Confirmed implementation defects have been repaired and regression-tested, but the product still contains incomplete business flows. PostgreSQL/container execution, load testing, backup restoration and deployment infrastructure could not be verified locally: the Docker Linux engine was unavailable. Passing unit, model and HTTP tests is not equivalent to passing these gates.

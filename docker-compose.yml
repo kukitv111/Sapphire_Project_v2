@@ -26,6 +26,9 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__DefaultConnection: "Host=auth-db;Port=5432;Database=sapphire_auth;Username=admin;Password=${DB_PASSWORD:?Set DB_PASSWORD}"
       Jwt__SecretKey: "${JWT_SECRET_KEY:?Set JWT_SECRET_KEY}"
+      Messaging__SharedSecret: "${EVENT_TRANSPORT_KEY:?Set EVENT_TRANSPORT_KEY}"
+      Messaging__Subscribers__0: "http://billing-api:8080"
+      Messaging__Subscribers__1: "http://session-api:8080"
       Cors__AllowedOrigins__0: "${ADMIN_ORIGIN:-http://localhost:5173}"
       Jwt__Issuer: "sapphire-auth"
       Jwt__Audience: "sapphire-clients"
@@ -64,6 +67,9 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__DefaultConnection: "Host=billing-db;Port=5432;Database=sapphire_billing;Username=admin;Password=${DB_PASSWORD:?Set DB_PASSWORD}"
       Jwt__SecretKey: "${JWT_SECRET_KEY:?Set JWT_SECRET_KEY}"
+      Messaging__SharedSecret: "${EVENT_TRANSPORT_KEY:?Set EVENT_TRANSPORT_KEY}"
+      Messaging__Subscribers__0: "http://auth-api:8080"
+      Messaging__Subscribers__1: "http://session-api:8080"
       Cors__AllowedOrigins__0: "${ADMIN_ORIGIN:-http://localhost:5173}"
       Jwt__Issuer: "sapphire-auth"
       Jwt__Audience: "sapphire-clients"
@@ -102,6 +108,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__DefaultConnection: "Host=session-db;Port=5432;Database=sapphire_session;Username=admin;Password=${DB_PASSWORD:?Set DB_PASSWORD}"
       Jwt__SecretKey: "${JWT_SECRET_KEY:?Set JWT_SECRET_KEY}"
+      Messaging__SharedSecret: "${EVENT_TRANSPORT_KEY:?Set EVENT_TRANSPORT_KEY}"
+      Messaging__Subscribers__0: "http://auth-api:8080"
+      Messaging__Subscribers__1: "http://billing-api:8080"
+      Billing__InternalUrl: "http://billing-api:8080"
       Cors__AllowedOrigins__0: "${ADMIN_ORIGIN:-http://localhost:5173}"
       Jwt__Issuer: "sapphire-auth"
       Jwt__Audience: "sapphire-clients"

@@ -20,6 +20,7 @@ public sealed class TariffConfiguration : IEntityTypeConfiguration<Tariff>
         builder.Property(t => t.PricePerHourCents).IsRequired();
         builder.Property(t => t.PackageDurationMinutes).IsRequired(false);
         builder.Property(t => t.PackageBonusMinutes).IsRequired(false);
+        builder.Property(t => t.PackagePriceCents).IsRequired();
         builder.Property(t => t.IsActive).IsRequired();
         builder.Property(t => t.IsSystem).IsRequired();
     }
