@@ -9,12 +9,14 @@ export interface UserDto {
   id: string;
   username: string;
   email: string;
+  mustChangePassword: boolean;
 }
 
 export interface TokenDto {
   accessToken: string;
   refreshToken: string;
-  expiresAt: string;
+  accessTokenExpiresAt: string;
+  refreshTokenExpiresAt: string;
 }
 
 export interface AuthPayload {
@@ -50,6 +52,15 @@ export const authService = {
     localStorage.setItem('user', JSON.stringify(data.value.user));
 
     return data.value;
+  },
+
+  changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
+    const { data } = await api.post<ResultResponse<unknown>>('/auth/change-password', {
+      currentPassword,
+      newPassword,
+    });
+    if (!data.isSuccess) throw new Error(data.error?.description || 'Не удалось сменить пароль');
+    authService.logout();
   },
 
   logout: () => {

@@ -210,7 +210,6 @@ namespace Sapphire.Billing.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Sapphire.Billing.Domain.Entities.PromocodeUsage", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")

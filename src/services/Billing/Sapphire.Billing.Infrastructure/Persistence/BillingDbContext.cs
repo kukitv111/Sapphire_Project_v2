@@ -42,6 +42,9 @@ public sealed class BillingDbContext : DbContext
         modelBuilder.Entity<Wallet>().Ignore(w => w.DomainEvents);
         modelBuilder.Entity<Tariff>().Ignore(t => t.DomainEvents);
         modelBuilder.Entity<Promocode>().Ignore(p => p.DomainEvents);
+        // Usage IDs are assigned by the domain. EF must insert newly attached usages
+        // discovered through a loaded promocode's collection, not update them.
+        modelBuilder.Entity<PromocodeUsage>().Property(u => u.Id).ValueGeneratedNever();
         modelBuilder.Entity<Wallet>().HasIndex(w => w.UserId).IsUnique();
         modelBuilder.Entity<Promocode>().HasIndex(p => p.NormalizedCode).IsUnique();
         modelBuilder.Entity<InboxMessage>(entity =>

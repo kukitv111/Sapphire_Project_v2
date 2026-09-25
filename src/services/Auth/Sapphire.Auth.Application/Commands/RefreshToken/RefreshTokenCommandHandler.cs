@@ -114,7 +114,8 @@ public sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCom
                     AccessToken = accessToken,
                     RefreshToken = newRefreshToken,
                     RefreshTokenId = replacementToken.Id,
-                    ExpiresAt = newRefreshTokenExpiresAt
+                    AccessTokenExpiresAt = _tokenService.GetAccessTokenExpiresAt(accessToken),
+                    RefreshTokenExpiresAt = newRefreshTokenExpiresAt
                 }
             });
         }

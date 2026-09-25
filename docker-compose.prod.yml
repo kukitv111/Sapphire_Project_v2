@@ -1,0 +1,273 @@
+services:
+  edge:
+    image: nginx:1.27-alpine
+    environment:
+      SAPPHIRE_DOMAIN: ${SAPPHIRE_DOMAIN:?Set SAPPHIRE_DOMAIN}
+      NGINX_ENVSUBST_FILTER: SAPPHIRE_DOMAIN
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/proxy/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./infra/proxy/proxy_params:/etc/nginx/proxy_params:ro
+      - ./infra/proxy/certs:/etc/nginx/certs:ro
+    depends_on:
+      - auth-api
+      - billing-api
+      - session-api
+    networks:
+      default:
+        ipv4_address: 172.28.48.10
+    mem_limit: 128m
+    cpus: 0.5
+    pids_limit: 100
+    restart: unless-stopped
+
+  auth-db:
+    environment:
+      SAPPHIRE_RUNTIME_ROLE: sapphire_auth_runtime
+      SAPPHIRE_RUNTIME_PASSWORD: ${AUTH_RUNTIME_DB_PASSWORD:?Set AUTH_RUNTIME_DB_PASSWORD}
+      SAPPHIRE_MIGRATION_ROLE: sapphire_auth_migrator
+      SAPPHIRE_MIGRATION_PASSWORD: ${AUTH_MIGRATION_DB_PASSWORD:?Set AUTH_MIGRATION_DB_PASSWORD}
+    volumes:
+      - ./infra/postgres/init-roles.sh:/docker-entrypoint-initdb.d/20-roles.sh:ro
+    ports: !reset []
+    mem_limit: 768m
+    cpus: 1.0
+    pids_limit: 200
+    restart: unless-stopped
+  billing-db:
+    environment:
+      SAPPHIRE_RUNTIME_ROLE: sapphire_billing_runtime
+      SAPPHIRE_RUNTIME_PASSWORD: ${BILLING_RUNTIME_DB_PASSWORD:?Set BILLING_RUNTIME_DB_PASSWORD}
+      SAPPHIRE_MIGRATION_ROLE: sapphire_billing_migrator
+      SAPPHIRE_MIGRATION_PASSWORD: ${BILLING_MIGRATION_DB_PASSWORD:?Set BILLING_MIGRATION_DB_PASSWORD}
+    volumes:
+      - ./infra/postgres/init-roles.sh:/docker-entrypoint-initdb.d/20-roles.sh:ro
+    ports: !reset []
+    mem_limit: 768m
+    cpus: 1.0
+    pids_limit: 200
+    restart: unless-stopped
+  session-db:
+    environment:
+      SAPPHIRE_RUNTIME_ROLE: sapphire_session_runtime
+      SAPPHIRE_RUNTIME_PASSWORD: ${SESSION_RUNTIME_DB_PASSWORD:?Set SESSION_RUNTIME_DB_PASSWORD}
+      SAPPHIRE_MIGRATION_ROLE: sapphire_session_migrator
+      SAPPHIRE_MIGRATION_PASSWORD: ${SESSION_MIGRATION_DB_PASSWORD:?Set SESSION_MIGRATION_DB_PASSWORD}
+    volumes:
+      - ./infra/postgres/init-roles.sh:/docker-entrypoint-initdb.d/20-roles.sh:ro
+    ports: !reset []
+    mem_limit: 768m
+    cpus: 1.0
+    pids_limit: 200
+    restart: unless-stopped
+
+  auth-api:
+    image: sapphire-auth:local
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=auth-db;Database=sapphire_auth;Username=sapphire_auth_runtime;Password=${AUTH_RUNTIME_DB_PASSWORD:?};Maximum Pool Size=50;Timeout=5"
+      TrustedProxyIps__0: 172.28.48.10
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:?Set OTEL_EXPORTER_OTLP_ENDPOINT}
+    ports: !reset []
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 150
+    restart: unless-stopped
+  billing-api:
+    image: sapphire-billing:local
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=billing-db;Database=sapphire_billing;Username=sapphire_billing_runtime;Password=${BILLING_RUNTIME_DB_PASSWORD:?};Maximum Pool Size=50;Timeout=5"
+      TrustedProxyIps__0: 172.28.48.10
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:?Set OTEL_EXPORTER_OTLP_ENDPOINT}
+    ports: !reset []
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 150
+    restart: unless-stopped
+  session-api:
+    image: sapphire-session:local
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=session-db;Database=sapphire_session;Username=sapphire_session_runtime;Password=${SESSION_RUNTIME_DB_PASSWORD:?};Maximum Pool Size=50;Timeout=5"
+      TrustedProxyIps__0: 172.28.48.10
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:?Set OTEL_EXPORTER_OTLP_ENDPOINT}
+    ports: !reset []
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 150
+    restart: unless-stopped
+
+  auth-migrate:
+    image: sapphire-auth:local
+    profiles: [migrate]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Host=auth-db;Database=sapphire_auth;Username=sapphire_auth_migrator;Password=${AUTH_MIGRATION_DB_PASSWORD:?}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY:?}
+      Messaging__SharedSecret: ${EVENT_TRANSPORT_KEY:?}
+      Jwt__Issuer: sapphire-auth
+      Jwt__Audience: sapphire-clients
+    command: ["--migrate"]
+    depends_on:
+      auth-db:
+        condition: service_healthy
+  auth-bootstrap:
+    image: sapphire-auth:local
+    profiles: [bootstrap]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Host=auth-db;Database=sapphire_auth;Username=sapphire_auth_migrator;Password=${AUTH_MIGRATION_DB_PASSWORD:?}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY:?}
+      Messaging__SharedSecret: ${EVENT_TRANSPORT_KEY:?}
+      Jwt__Issuer: sapphire-auth
+      Jwt__Audience: sapphire-clients
+      Bootstrap__AdminUsername: ${BOOTSTRAP_ADMIN_USERNAME:-}
+      Bootstrap__AdminEmail: ${BOOTSTRAP_ADMIN_EMAIL:-}
+      Bootstrap__AdminPassword: ${BOOTSTRAP_ADMIN_PASSWORD:-}
+    command: ["--bootstrap-admin"]
+    depends_on:
+      auth-db:
+        condition: service_healthy
+  billing-migrate:
+    image: sapphire-billing:local
+    profiles: [migrate]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Host=billing-db;Database=sapphire_billing;Username=sapphire_billing_migrator;Password=${BILLING_MIGRATION_DB_PASSWORD:?}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY:?}
+      Messaging__SharedSecret: ${EVENT_TRANSPORT_KEY:?}
+      Jwt__Issuer: sapphire-auth
+      Jwt__Audience: sapphire-clients
+    command: ["--migrate"]
+    depends_on:
+      billing-db:
+        condition: service_healthy
+  session-migrate:
+    image: sapphire-session:local
+    profiles: [migrate]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: "Host=session-db;Database=sapphire_session;Username=sapphire_session_migrator;Password=${SESSION_MIGRATION_DB_PASSWORD:?}"
+      Jwt__SecretKey: ${JWT_SECRET_KEY:?}
+      Messaging__SharedSecret: ${EVENT_TRANSPORT_KEY:?}
+      Jwt__Issuer: sapphire-auth
+      Jwt__Audience: sapphire-clients
+    command: ["--migrate"]
+    depends_on:
+      session-db:
+        condition: service_healthy
+
+  auth-backup:
+    image: postgres:16-alpine
+    user: "70:70"
+    entrypoint: ["sh", "/usr/local/bin/backup.sh"]
+    environment:
+      PGHOST: auth-db
+      PGDATABASE: sapphire_auth
+      PGUSER: sapphire_auth_runtime
+      PGPASSWORD: ${AUTH_RUNTIME_DB_PASSWORD:?}
+    volumes:
+      - ./infra/postgres/backup.sh:/usr/local/bin/backup.sh:ro
+      - ${BACKUP_ROOT:?Mount an independent backup volume and set BACKUP_ROOT}/auth:/backups
+    depends_on:
+      auth-db:
+        condition: service_healthy
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped
+  billing-backup:
+    image: postgres:16-alpine
+    user: "70:70"
+    entrypoint: ["sh", "/usr/local/bin/backup.sh"]
+    environment:
+      PGHOST: billing-db
+      PGDATABASE: sapphire_billing
+      PGUSER: sapphire_billing_runtime
+      PGPASSWORD: ${BILLING_RUNTIME_DB_PASSWORD:?}
+    volumes:
+      - ./infra/postgres/backup.sh:/usr/local/bin/backup.sh:ro
+      - ${BACKUP_ROOT:?Mount an independent backup volume and set BACKUP_ROOT}/billing:/backups
+    depends_on:
+      billing-db:
+        condition: service_healthy
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped
+  session-backup:
+    image: postgres:16-alpine
+    user: "70:70"
+    entrypoint: ["sh", "/usr/local/bin/backup.sh"]
+    environment:
+      PGHOST: session-db
+      PGDATABASE: sapphire_session
+      PGUSER: sapphire_session_runtime
+      PGPASSWORD: ${SESSION_RUNTIME_DB_PASSWORD:?}
+    volumes:
+      - ./infra/postgres/backup.sh:/usr/local/bin/backup.sh:ro
+      - ${BACKUP_ROOT:?Mount an independent backup volume and set BACKUP_ROOT}/session:/backups
+    depends_on:
+      session-db:
+        condition: service_healthy
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.161.0
+    command: ["--config=/etc/otel/config.yml"]
+    volumes:
+      - ./infra/monitoring/otel-collector.yml:/etc/otel/config.yml:ro
+      - otel_traces:/var/lib/otel
+    mem_limit: 512m
+    cpus: 1.0
+    restart: unless-stopped
+  blackbox:
+    image: prom/blackbox-exporter:v0.27.0
+    volumes:
+      - ./infra/monitoring/blackbox.yml:/etc/blackbox/blackbox.yml:ro
+    command: ["--config.file=/etc/blackbox/blackbox.yml"]
+    mem_limit: 128m
+    cpus: 0.25
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    volumes:
+      - ./infra/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+    mem_limit: 512m
+    cpus: 1.0
+    restart: unless-stopped
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    volumes:
+      - ./infra/monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager_data:/alertmanager
+    ports:
+      - "127.0.0.1:9093:9093"
+    mem_limit: 128m
+    cpus: 0.25
+    restart: unless-stopped
+  alert-log:
+    image: python:3.12-alpine
+    command: ["python", "/app/alert-log.py"]
+    volumes:
+      - ./infra/monitoring/alert-log.py:/app/alert-log.py:ro
+      - alert_log:/alerts
+    mem_limit: 64m
+    cpus: 0.25
+    restart: unless-stopped
+
+volumes:
+  otel_traces:
+  prometheus_data:
+  alertmanager_data:
+  alert_log:
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.28.48.0/24

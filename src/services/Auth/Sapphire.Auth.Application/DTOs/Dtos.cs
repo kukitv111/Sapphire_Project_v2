@@ -12,6 +12,7 @@ public sealed record UserDto
     public Guid? BranchId { get; init; }
     public decimal BonusBalance { get; init; }
     public string Status { get; init; } = string.Empty;
+    public bool MustChangePassword { get; init; }
     public bool IsBanned { get; init; }
     public string? BanReason { get; init; }
     public DateTime CreatedAt { get; init; }
@@ -36,7 +37,8 @@ public sealed record TokenDto
     public string AccessToken { get; init; } = string.Empty;
     public string RefreshToken { get; init; } = string.Empty;
     public Guid RefreshTokenId { get; init; }
-    public DateTime ExpiresAt { get; init; }
+    public DateTime AccessTokenExpiresAt { get; init; }
+    public DateTime RefreshTokenExpiresAt { get; init; }
 }
 
 /// <summary>
@@ -60,4 +62,3 @@ public sealed record RoleDto
     public string? Description { get; init; }
     public bool IsSystem { get; init; }
 }
-

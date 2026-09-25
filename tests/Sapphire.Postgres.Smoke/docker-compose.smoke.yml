@@ -5,10 +5,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${SAPPHIRE_SMOKE_DB_PASSWORD}
       POSTGRES_DB: sapphire_auth_smoke
+      SAPPHIRE_RUNTIME_ROLE: sapphire_auth_runtime
+      SAPPHIRE_RUNTIME_PASSWORD: ${SAPPHIRE_SMOKE_RUNTIME_PASSWORD}
+      SAPPHIRE_MIGRATION_ROLE: sapphire_auth_migrator
+      SAPPHIRE_MIGRATION_PASSWORD: ${SAPPHIRE_SMOKE_MIGRATION_PASSWORD}
     ports:
       - "127.0.0.1::5432"
     volumes:
       - auth_smoke:/var/lib/postgresql/data
+      - ../../infra/postgres/init-roles.sh:/docker-entrypoint-initdb.d/20-roles.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d sapphire_auth_smoke"]
       interval: 1s
@@ -20,10 +25,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${SAPPHIRE_SMOKE_DB_PASSWORD}
       POSTGRES_DB: sapphire_billing_smoke
+      SAPPHIRE_RUNTIME_ROLE: sapphire_billing_runtime
+      SAPPHIRE_RUNTIME_PASSWORD: ${SAPPHIRE_SMOKE_RUNTIME_PASSWORD}
+      SAPPHIRE_MIGRATION_ROLE: sapphire_billing_migrator
+      SAPPHIRE_MIGRATION_PASSWORD: ${SAPPHIRE_SMOKE_MIGRATION_PASSWORD}
     ports:
       - "127.0.0.1::5432"
     volumes:
       - billing_smoke:/var/lib/postgresql/data
+      - ../../infra/postgres/init-roles.sh:/docker-entrypoint-initdb.d/20-roles.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d sapphire_billing_smoke"]
       interval: 1s
@@ -35,16 +45,52 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${SAPPHIRE_SMOKE_DB_PASSWORD}
       POSTGRES_DB: sapphire_session_smoke
+      SAPPHIRE_RUNTIME_ROLE: sapphire_session_runtime
+      SAPPHIRE_RUNTIME_PASSWORD: ${SAPPHIRE_SMOKE_RUNTIME_PASSWORD}
+      SAPPHIRE_MIGRATION_ROLE: sapphire_session_migrator
+      SAPPHIRE_MIGRATION_PASSWORD: ${SAPPHIRE_SMOKE_MIGRATION_PASSWORD}
     ports:
       - "127.0.0.1::5432"
     volumes:
       - session_smoke:/var/lib/postgresql/data
+      - ../../infra/postgres/init-roles.sh:/docker-entrypoint-initdb.d/20-roles.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d sapphire_session_smoke"]
       interval: 1s
       timeout: 1s
       retries: 30
+  restore-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${SAPPHIRE_SMOKE_DB_PASSWORD}
+      POSTGRES_DB: restored_billing_smoke
+    ports:
+      - "127.0.0.1::5432"
+    volumes:
+      - restore_smoke:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d restored_billing_smoke"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+  billing-backup:
+    image: postgres:16-alpine
+    entrypoint: ["sh", "/usr/local/bin/backup.sh"]
+    environment:
+      PGHOST: billing-db
+      PGDATABASE: sapphire_billing_smoke
+      PGUSER: sapphire_billing_runtime
+      PGPASSWORD: ${SAPPHIRE_SMOKE_RUNTIME_PASSWORD}
+    volumes:
+      - ../../infra/postgres/backup.sh:/usr/local/bin/backup.sh:ro
+      - billing_backup_smoke:/backups
+    depends_on:
+      billing-db:
+        condition: service_healthy
 volumes:
   auth_smoke:
   billing_smoke:
   session_smoke:
+  restore_smoke:
+  billing_backup_smoke:

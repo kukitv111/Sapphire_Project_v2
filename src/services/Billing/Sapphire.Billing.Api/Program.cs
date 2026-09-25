@@ -14,10 +14,12 @@ using Sapphire.Billing.Infrastructure;
 using Sapphire.Billing.Infrastructure.Persistence;
 using Sapphire.Shared.Security;
 using Sapphire.Shared.Security.Jwt;
+using Sapphire.Shared.Security.Telemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
-builder.Logging.AddJsonConsole();
+builder.Logging.AddJsonConsole(options => options.IncludeScopes = true);
+builder.Services.AddSapphireTelemetry(builder.Configuration, "sapphire-billing");
 ProductionConfiguration.Validate(builder.Configuration, builder.Environment);
 
 builder.Services.AddControllers(options => options.Filters.Add<ResultStatusFilter>());
@@ -39,6 +41,8 @@ builder.Services.AddScoped<IIncomingEventHandler, SessionBillingEventHandler>();
 builder.Services.AddOutboxTransport<BillingDbContext>();
 
 builder.Services.AddJwtAuthentication(builder.Configuration, builder.Environment);
+builder.Services.AddHttpClient<Sapphire.Shared.Security.Jwt.ITokenRevocationService,
+    Sapphire.Shared.Security.Jwt.RemoteTokenRevocationService>(client => client.Timeout = TimeSpan.FromSeconds(2));
 builder.Services.AddSapphireAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -93,7 +97,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sapphire Billing API v1"));
 }
 
+app.UseTrustedProxyHeaders(builder.Configuration);
+app.UseSapphireCorrelation();
 app.UseExceptionHandler();
+app.UseSapphirePoolDiagnostics();
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseSapphireMiddleware();

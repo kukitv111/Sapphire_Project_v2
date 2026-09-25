@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sapphire.Auth.Domain.Events;
 using Sapphire.Billing.Api.Controllers;
 using Sapphire.Session.Api.Controllers;
@@ -27,6 +28,8 @@ public sealed class ProductionRegressionTests
             builder.UseSetting("Jwt:SecretKey", "regression-tests-secret-at-least-32-characters");
             builder.UseSetting("Jwt:Issuer", "sapphire-auth");
             builder.UseSetting("Jwt:Audience", "sapphire-clients");
+            builder.ConfigureServices(services => services.Replace(
+                ServiceDescriptor.Scoped<ITokenRevocationService, AcceptingTokenVersions>()));
         }
         public HttpClient AuthenticatedClient(string role = "User")
         {
@@ -76,6 +79,12 @@ public sealed class ProductionRegressionTests
         using var factory = new ApiFactory<SessionController>();
         using var client = factory.AuthenticatedClient();
         Assert.Equal(HttpStatusCode.Forbidden, (await client.GetAsync("/api/sessions")).StatusCode);
+    }
+
+    private sealed class AcceptingTokenVersions : ITokenRevocationService
+    {
+        public Task<TokenVersionState?> GetAsync(Guid userId, CancellationToken ct) =>
+            Task.FromResult<TokenVersionState?>(new TokenVersionState(0, true, false));
     }
 
     [Fact]

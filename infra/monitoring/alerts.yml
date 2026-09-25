@@ -1,0 +1,32 @@
+groups:
+  - name: sapphire-production
+    rules:
+      - alert: SapphireReadinessUnavailable
+        expr: probe_success{job="readiness"} == 0
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: "Sapphire readiness unavailable: {{ $labels.instance }}"
+      - alert: SapphireTlsEdgeUnavailable
+        expr: probe_success{job="edge-tls"} == 0
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: "Sapphire TLS edge is unavailable"
+      - alert: SapphireDeadLetterPresent
+        expr: sapphire_outbox_dead_letter > 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "Outbox dead-letter count is {{ $value }} on {{ $labels.service_name }}"
+      - alert: SapphireFiveHundreds
+        expr: increase(sapphire_http_5xx_total[5m]) > 5
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: "Sapphire 5xx responses increased on {{ $labels.service_name }}"
+      - alert: SapphireDbPoolExhausted
+        expr: increase(sapphire_db_pool_exhaustion_total[5m]) > 0
+        labels: {severity: critical}
+        annotations:
+          summary: "Database connection pool exhausted on {{ $labels.service_name }}"

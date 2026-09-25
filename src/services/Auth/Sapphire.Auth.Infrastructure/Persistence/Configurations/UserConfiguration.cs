@@ -51,6 +51,10 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(20)
             .IsRequired();
 
+        builder.Property(u => u.TokenVersion).HasColumnName("token_version").HasDefaultValue(0L)
+            .IsConcurrencyToken();
+        builder.Property(u => u.MustChangePassword).HasColumnName("must_change_password").HasDefaultValue(false);
+
         builder.Property(u => u.BanReason).HasColumnName("ban_reason").HasMaxLength(500);
         builder.Property(u => u.BannedAt).HasColumnName("banned_at");
         builder.Property(u => u.BannedBy).HasColumnName("banned_by");

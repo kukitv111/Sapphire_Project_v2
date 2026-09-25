@@ -59,14 +59,16 @@ public sealed record AuthResponse
 {
     public string AccessToken { get; init; } = string.Empty;
     public string RefreshToken { get; init; } = string.Empty;
-    public DateTime ExpiresAt { get; init; }
+    public DateTime AccessTokenExpiresAt { get; init; }
+    public DateTime RefreshTokenExpiresAt { get; init; }
     public UserResponse User { get; init; } = null!;
 
     public static AuthResponse From(AuthResultDto result) => new()
     {
         AccessToken = result.Tokens.AccessToken,
         RefreshToken = result.Tokens.RefreshToken,
-        ExpiresAt = result.Tokens.ExpiresAt,
+        AccessTokenExpiresAt = result.Tokens.AccessTokenExpiresAt,
+        RefreshTokenExpiresAt = result.Tokens.RefreshTokenExpiresAt,
         User = UserResponse.From(result.User)
     };
 }
@@ -83,6 +85,7 @@ public sealed record UserResponse
     public Guid? BranchId { get; init; }
     public decimal BonusBalance { get; init; }
     public string Status { get; init; } = string.Empty;
+    public bool MustChangePassword { get; init; }
     public bool IsBanned { get; init; }
     public string? BanReason { get; init; }
     public DateTime CreatedAt { get; init; }
@@ -98,6 +101,7 @@ public sealed record UserResponse
         BranchId = dto.BranchId,
         BonusBalance = dto.BonusBalance,
         Status = dto.Status,
+        MustChangePassword = dto.MustChangePassword,
         IsBanned = dto.IsBanned,
         BanReason = dto.BanReason,
         CreatedAt = dto.CreatedAt,

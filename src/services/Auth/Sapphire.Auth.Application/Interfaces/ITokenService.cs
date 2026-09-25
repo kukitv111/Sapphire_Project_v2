@@ -18,6 +18,7 @@ public interface ITokenService
     /// Generates an access token without creating a refresh token.
     /// </summary>
     string GenerateAccessToken(User user);
+    DateTime GetAccessTokenExpiresAt(string accessToken);
 
     /// <summary>
     /// Generates an opaque refresh token without persisting it.
@@ -34,5 +35,4 @@ public interface ITokenService
     /// </summary>
     Guid? GetUserIdFromToken(string accessToken);
 }
-
 

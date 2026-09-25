@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Diagnostics.Metrics;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
@@ -81,8 +82,12 @@ public sealed class OutboxDispatcher<TContext>(IServiceScopeFactory scopes,
     IHttpClientFactory clients, IConfiguration config, ILogger<OutboxDispatcher<TContext>> logger)
     : BackgroundService where TContext : DbContext
 {
+    private long _deadLetterCount;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        using var meter = new Meter("Sapphire.Messaging");
+        meter.CreateObservableGauge("sapphire_outbox_dead_letter",
+            () => Interlocked.Read(ref _deadLetterCount));
         while (!stoppingToken.IsCancellationRequested)
         {
             try { await DispatchOnceAsync(stoppingToken); }
@@ -119,6 +124,7 @@ public sealed class OutboxDispatcher<TContext>(IServiceScopeFactory scopes,
                         Content = JsonContent.Create(new EventEnvelope(message.Id, message.Type, message.Content, message.OccurredOn))
                     };
                     request.Headers.Add("X-Sapphire-Message-Key", secret);
+                    request.Headers.Add("X-Correlation-ID", message.Id.ToString("N"));
                     using var response = await client.SendAsync(request, ct);
                     response.EnsureSuccessStatusCode();
                 }
@@ -141,5 +147,7 @@ public sealed class OutboxDispatcher<TContext>(IServiceScopeFactory scopes,
             }
             await db.SaveChangesAsync(ct);
         }
+        Interlocked.Exchange(ref _deadLetterCount,
+            await db.Set<OutboxMessage>().LongCountAsync(m => m.DeadLetterAt != null, ct));
     }
 }

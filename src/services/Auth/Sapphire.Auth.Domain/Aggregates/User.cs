@@ -24,6 +24,8 @@ public sealed class User : AggregateRoot
     public Guid? BranchId { get; private set; }
     public long BonusBalanceCents { get; private set; }
     public UserStatus Status { get; private set; }
+    public long TokenVersion { get; private set; }
+    public bool MustChangePassword { get; private set; }
     public string? BanReason { get; private set; }
     public DateTime? BannedAt { get; private set; }
     public Guid? BannedBy { get; private set; }
@@ -169,6 +171,8 @@ public sealed class User : AggregateRoot
         EnsureIsActive();
 
         Password = newHashedPassword;
+        TokenVersion++;
+        MustChangePassword = false;
         UpdatedAt = DateTime.UtcNow;
 
         AddDomainEvent(new PasswordChangedEvent
@@ -187,6 +191,8 @@ public sealed class User : AggregateRoot
     public void ForceChangePassword(Password newHashedPassword, Guid changedBy)
     {
         Password = newHashedPassword;
+        TokenVersion++;
+        MustChangePassword = true;
         UpdatedAt = DateTime.UtcNow;
 
         AddDomainEvent(new PasswordChangedEvent
@@ -343,6 +349,7 @@ public sealed class User : AggregateRoot
             return;
 
         Status = UserStatus.Banned;
+        TokenVersion++;
         BanReason = reason;
         BannedAt = DateTime.UtcNow;
         BannedBy = bannedBy;
@@ -411,9 +418,12 @@ public sealed class User : AggregateRoot
     public void Delete()
     {
         Status = UserStatus.Deleted;
+        TokenVersion++;
         UpdatedAt = DateTime.UtcNow;
         RevokeAllRefreshTokens("User deleted");
     }
+
+    public void RequirePasswordChange() => MustChangePassword = true;
 
     #endregion
 

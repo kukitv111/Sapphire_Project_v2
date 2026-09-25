@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sapphire.Auth.Api;
 using Sapphire.Auth.Infrastructure.Persistence;
+using Sapphire.Auth.Infrastructure.Security;
 using Sapphire.Shared.Security.Jwt;
 
 namespace Sapphire.E2E.Tests.ContractTests;
@@ -17,6 +18,10 @@ namespace Sapphire.E2E.Tests.ContractTests;
 public sealed class AuthApiFixture : WebApplicationFactory<Sapphire.Auth.Api.Controllers.AuthController>
 {
     private readonly string _databaseName = $"auth-contract-{Guid.NewGuid()}";
+    private readonly bool _enforceTokenVersion;
+
+    public AuthApiFixture() : this(false) { }
+    internal AuthApiFixture(bool enforceTokenVersion) => _enforceTokenVersion = enforceTokenVersion;
 
     public string MintToken(Guid userId, string email, params string[] roles)
         => Services.GetRequiredService<TokenService>()
@@ -53,6 +58,15 @@ public sealed class AuthApiFixture : WebApplicationFactory<Sapphire.Auth.Api.Con
 
             services.AddDbContext<AuthDbContext>(options =>
                 options.UseInMemoryDatabase(_databaseName));
+            services.Replace(_enforceTokenVersion
+                ? ServiceDescriptor.Scoped<ITokenRevocationService, LocalTokenRevocationService>()
+                : ServiceDescriptor.Scoped<ITokenRevocationService, AcceptingTokenVersions>());
         });
+    }
+
+    private sealed class AcceptingTokenVersions : ITokenRevocationService
+    {
+        public Task<TokenVersionState?> GetAsync(Guid userId, CancellationToken ct) =>
+            Task.FromResult<TokenVersionState?>(new TokenVersionState(0, true, false));
     }
 }

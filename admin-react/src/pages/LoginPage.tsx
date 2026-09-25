@@ -10,8 +10,8 @@ export const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await authService.login({ login, password });
-      navigate('/dashboard');
+      const result = await authService.login({ login, password });
+      navigate(result.user.mustChangePassword ? '/change-password' : '/dashboard');
     } catch {
       alert('Ошибка входа');
     }

@@ -5,6 +5,7 @@ import { AdminLayout } from './components/AdminLayout';
 import { UsersPage } from './pages/UsersPage';
 import { TariffsPage } from './pages/TariffsPage';
 import { SessionsPage } from './pages/SessionsPage';
+import { ChangePasswordPage } from './pages/ChangePasswordPage';
 
 const Dashboard = () => <div className="p-10 text-2xl">Dashboard</div>;
 
@@ -13,6 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />

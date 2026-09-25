@@ -77,7 +77,8 @@ public sealed class E2ETestFixture : IAsyncLifetime
                     {
                         accessToken = GenerateFakeJwt(id),
                         refreshToken = "refresh_" + Guid.NewGuid().ToString("N"),
-                        expiresAt = DateTime.UtcNow.AddMinutes(15),
+                        accessTokenExpiresAt = DateTime.UtcNow.AddMinutes(15),
+                        refreshTokenExpiresAt = DateTime.UtcNow.AddDays(7),
                         user = BuildUser(id, username, email)
                     }, Json);
                 }));
@@ -105,7 +106,8 @@ public sealed class E2ETestFixture : IAsyncLifetime
                     {
                         accessToken = GenerateFakeJwt(id),
                         refreshToken = "refresh_" + Guid.NewGuid().ToString("N"),
-                        expiresAt = DateTime.UtcNow.AddMinutes(15),
+                        accessTokenExpiresAt = DateTime.UtcNow.AddMinutes(15),
+                        refreshTokenExpiresAt = DateTime.UtcNow.AddDays(7),
                         user = BuildUser(id, login, email)
                     }, Json);
                 }));
@@ -121,7 +123,8 @@ public sealed class E2ETestFixture : IAsyncLifetime
                     {
                         accessToken = GenerateFakeJwt(id),
                         refreshToken = "refresh_" + Guid.NewGuid().ToString("N"),
-                        expiresAt = DateTime.UtcNow.AddMinutes(15),
+                        accessTokenExpiresAt = DateTime.UtcNow.AddMinutes(15),
+                        refreshTokenExpiresAt = DateTime.UtcNow.AddDays(7),
                         user = BuildUser(id, "refreshed_user", "refreshed@test.com")
                     }, Json);
                 }));

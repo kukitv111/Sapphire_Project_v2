@@ -1,0 +1,5 @@
+infra/postgres/*.sh text eol=lf
+infra/proxy/*.conf.template text eol=lf
+infra/proxy/proxy_params text eol=lf
+tests/Sapphire.Postgres.Smoke/*.py text eol=lf
+tests/Sapphire.Postgres.Smoke/*.yml text eol=lf

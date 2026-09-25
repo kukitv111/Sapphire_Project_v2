@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Sapphire.Shared.Security.Jwt;
 using System.Text;
@@ -24,6 +25,33 @@ public static class JwtAuthenticationExtensions
             {
                 options.MapInboundClaims = false;
                 options.TokenValidationParameters = GetTokenValidationParameters(jwtOptions!);
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = async context =>
+                    {
+                        var subject = context.Principal?.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                        var version = context.Principal?.FindFirst("token_version")?.Value;
+                        if (!Guid.TryParse(subject, out var userId) || !long.TryParse(version, out var issuedVersion))
+                        {
+                            context.Fail("Access token has no version");
+                            return;
+                        }
+                        try
+                        {
+                            var validator = context.HttpContext.RequestServices
+                                .GetRequiredService<ITokenRevocationService>();
+                            var state = await validator.GetAsync(userId, context.HttpContext.RequestAborted);
+                            if (state is null || !state.Active || state.Version != issuedVersion ||
+                                (state.MustChangePassword &&
+                                 !context.Request.Path.Equals("/api/auth/change-password", StringComparison.OrdinalIgnoreCase)))
+                                context.Fail("Access token revoked or password change required");
+                        }
+                        catch (Exception)
+                        {
+                            context.Fail("Token revocation service unavailable");
+                        }
+                    }
+                };
             });
 
         return services;

@@ -1,5 +1,9 @@
 # Deployment and validation runbook
 
+For the production overlay, distinct database roles, TLS ingress, monitoring,
+bootstrap and backup operations, follow [production infrastructure](production-infrastructure.md).
+The commands below describe the original local/base Compose deployment.
+
 ## Configuration
 
 Set independent random `DB_PASSWORD`, `JWT_SECRET_KEY` and `EVENT_TRANSPORT_KEY` values in an ignored `.env` file or the deployment secret store. JWT and event transport secrets must each be at least 32 characters. Set `ADMIN_ORIGIN` to the exact admin frontend origin. The example contains empty values intentionally; copying it without configuring secrets must not start the services.
@@ -63,12 +67,20 @@ For a disposable local PostgreSQL integration check with a running Docker engine
 python tests/Sapphire.Postgres.Smoke/run_temp_postgres.py
 ```
 
-This creates and removes a temporary PostgreSQL container and three throwaway
-databases. It tests all migrations, a purchase and replay, concurrent reserve,
-settlement, inbox deduplication and the Session outbox. It does not touch the
-Compose volumes or an existing database.
+This creates and removes a distinct Compose project with disposable Auth,
+Billing, Session and restore volumes. It runs each API's `--migrate` against
+an empty database, checks runtime DDL denial, concurrent one-PC starts,
+wallet debit/credit and one-use promo, refresh replay, an interrupted write,
+one-time admin bootstrap, and a backup-script dump restored on another
+PostgreSQL instance. It does not touch the base Compose volumes or existing
+databases.
 
 ## API compatibility changes
+
+- **Breaking Auth token DTO change:** `expiresAt` was removed and replaced by
+  `accessTokenExpiresAt` and `refreshTokenExpiresAt`; update clients before
+  deploying the APIs. First-login users receive `user.mustChangePassword` and
+  must use `/api/auth/change-password` before other authenticated routes.
 
 - Result failures now use meaningful non-2xx HTTP status codes; JSON Result envelopes remain unchanged. Axios callers must handle rejections.
 - Wallet reads require ownership or staff role; promo application and session lists require Cashier/Admin/Owner. Tariff creation requires Admin/Owner.

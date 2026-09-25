@@ -80,6 +80,12 @@ namespace Sapphire.Auth.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("locked_until");
 
+                    b.Property<bool>("MustChangePassword")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("must_change_password");
+
                     b.Property<string>("Phone")
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
@@ -90,6 +96,13 @@ namespace Sapphire.Auth.Infrastructure.Persistence.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
                         .HasColumnName("status");
+
+                    b.Property<long>("TokenVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L)
+                        .HasColumnName("token_version");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -353,6 +366,19 @@ namespace Sapphire.Auth.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("roles", (string)null);
+                });
+
+            modelBuilder.Entity("Sapphire.Auth.Infrastructure.Persistence.BootstrapRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("bootstrap_state", (string)null);
                 });
 
             modelBuilder.Entity("Sapphire.Shared.Messaging.Outbox.InboxMessage", b =>

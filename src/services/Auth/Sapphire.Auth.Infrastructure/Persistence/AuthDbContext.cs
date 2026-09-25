@@ -8,6 +8,7 @@ namespace Sapphire.Auth.Infrastructure.Persistence;
 public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<BootstrapRecord> BootstrapRecords => Set<BootstrapRecord>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<Permission> Permissions => Set<Permission>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
@@ -18,6 +19,12 @@ public sealed class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbC
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<BootstrapRecord>(entity =>
+        {
+            entity.ToTable("bootstrap_state");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Id).ValueGeneratedNever();
+        });
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
         modelBuilder.Entity<InboxMessage>(entity =>
         {

@@ -33,7 +33,7 @@ public sealed class JwtTokenService : ITokenService
             user.Id,
             user.Email.Value,
             roleNames,
-            permissions);
+            permissions, user.TokenVersion);
 
         var (refreshToken, expiresAt) = _tokenService.GenerateRefreshToken();
 
@@ -46,7 +46,9 @@ public sealed class JwtTokenService : ITokenService
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             RefreshTokenId = refreshTokenEntity.Id,
-            ExpiresAt = expiresAt
+            AccessTokenExpiresAt = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler()
+                .ReadJwtToken(accessToken).ValidTo,
+            RefreshTokenExpiresAt = expiresAt
         };
 
         return tokenDto;
@@ -56,8 +58,12 @@ public sealed class JwtTokenService : ITokenService
     {
         var roleNames = GetRoleNames(user);
         var permissions = GetPermissions(user);
-        return _tokenService.GenerateAccessToken(user.Id, user.Email.Value, roleNames, permissions);
+        return _tokenService.GenerateAccessToken(user.Id, user.Email.Value, roleNames, permissions,
+            user.TokenVersion);
     }
+
+    public DateTime GetAccessTokenExpiresAt(string accessToken) =>
+        new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler().ReadJwtToken(accessToken).ValidTo;
 
     public (string Token, DateTime ExpiresAt) GenerateRefreshToken()
     {

@@ -18,6 +18,9 @@ build/
 
 # Secrets
 .env
+.env.prod
+infra/proxy/certs/*
+!infra/proxy/certs/.gitkeep
 appsettings.Development.json
 secrets.json
 

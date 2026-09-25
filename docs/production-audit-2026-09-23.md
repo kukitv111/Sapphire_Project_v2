@@ -1,5 +1,34 @@
 # Production audit — 2026-09-23
 
+> **Update 2026-09-24:** The Docker Linux engine was available for a disposable
+> Compose verification. Empty Auth/Billing/Session databases migrated through
+> each API's `--migrate` entry point using migration-only DB roles; runtime
+> roles were denied DDL. PostgreSQL concurrency checks covered one-PC starts,
+> wallet debit/credit, one-use promo, refresh replay and a killed uncommitted
+> writer. One promo tracking defect was found and fixed. First-admin bootstrap
+> succeeded once and the repeat was rejected. The hourly backup script produced
+> a Billing dump restored on a separate container in 1.9 s for a small fixture;
+> schema column count and key row counts matched. The TLS nginx configuration
+> passed `nginx -t` with a disposable test certificate; production certificates
+> and a full multi-service HTTP deployment were not exercised. Details and
+> RPO/RTO targets are in [production infrastructure](production-infrastructure.md).
+>
+> The production overlay now defines TLS edge routing, known proxy IPs, edge
+> limits, telemetry/alerts, resource limits, separate runtime/migration DB
+> users and automated dumps. Auth now has a one-time administrator bootstrap,
+> mandatory initial password change and database-backed access-token version
+> checks on every authenticated request; Billing/Session fail closed if Auth
+> cannot check a token. The expiration DTO split is a breaking client change.
+> **Release remains unapproved** until real certificates, secrets, full-service
+> deployment, alert receiver delivery, full-size restore timing and client
+> compatibility are verified. The historical findings below describe the
+> earlier audit state, not the current implementation.
+> The API Docker image build was attempted on the Linux engine. Initial
+> `mcr.microsoft.com` DNS failure cleared after retry, but package restore
+> inside the SDK image then hit a NuGet 60-second download timeout and the
+> stalled build was stopped. Local Release builds and tests passed; image
+> publishing remains unverified.
+
 > Follow-up on 2026-09-23: prepaid tariff purchase, session reservation/settlement,
 > and local outbox delivery were implemented after this audit. Findings 1 and 2
 > in "Remaining release blockers" below describe the state *at the time of the audit*.

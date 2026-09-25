@@ -45,3 +45,45 @@ jobs:
         with:
           dotnet-version: '9.0.x'
       - run: python3 tests/Sapphire.Postgres.Smoke/run_temp_postgres.py
+  production-config:
+    runs-on: ubuntu-latest
+    env:
+      DB_PASSWORD: test-db-password
+      JWT_SECRET_KEY: test-jwt-secret-123456789012345678901234
+      EVENT_TRANSPORT_KEY: test-transport-secret-12345678901234567890
+      AUTH_RUNTIME_DB_PASSWORD: test-auth-runtime
+      AUTH_MIGRATION_DB_PASSWORD: test-auth-migrate
+      BILLING_RUNTIME_DB_PASSWORD: test-billing-runtime
+      BILLING_MIGRATION_DB_PASSWORD: test-billing-migrate
+      SESSION_RUNTIME_DB_PASSWORD: test-session-runtime
+      SESSION_MIGRATION_DB_PASSWORD: test-session-migrate
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      BACKUP_ROOT: /tmp/sapphire-backups
+      SAPPHIRE_DOMAIN: localhost
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose -f docker-compose.yml -f docker-compose.prod.yml config --quiet
+      - run: |
+          docker run --rm --entrypoint promtool \
+            -v "$PWD/infra/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \
+            -v "$PWD/infra/monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro" \
+            prom/prometheus:v3.5.0 check config /etc/prometheus/prometheus.yml
+          docker run --rm --entrypoint amtool \
+            -v "$PWD/infra/monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro" \
+            prom/alertmanager:v0.28.1 check-config /etc/alertmanager/alertmanager.yml
+          docker run --rm \
+            -v "$PWD/infra/monitoring/otel-collector.yml:/etc/otel/config.yml:ro" \
+            otel/opentelemetry-collector-contrib:0.161.0 \
+            validate --config=/etc/otel/config.yml
+      - run: |
+          certdir=$(mktemp -d)
+          trap 'rm -f "$certdir/fullchain.pem" "$certdir/privkey.pem"; rmdir "$certdir"' EXIT
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj /CN=localhost \
+            -keyout "$certdir/privkey.pem" -out "$certdir/fullchain.pem" 2>/dev/null
+          docker run --rm -e SAPPHIRE_DOMAIN=localhost \
+            -e NGINX_ENVSUBST_FILTER=SAPPHIRE_DOMAIN \
+            --add-host auth-api:127.0.0.1 --add-host billing-api:127.0.0.1 \
+            --add-host session-api:127.0.0.1 \
+            -v "$PWD/infra/proxy/default.conf.template:/etc/nginx/templates/default.conf.template:ro" \
+            -v "$PWD/infra/proxy/proxy_params:/etc/nginx/proxy_params:ro" \
+            -v "$certdir:/etc/nginx/certs:ro" nginx:1.27-alpine nginx -t
